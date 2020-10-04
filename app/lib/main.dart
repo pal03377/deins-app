@@ -1,19 +1,39 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(MyApp());
+import 'Timeline.dart';
 
-class MyApp extends StatelessWidget {
+void main() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
+  runApp(App());
+}
+
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Deins',
+        theme: ThemeData(
+          primaryColor: Colors.black, 
+          textTheme: GoogleFonts.crimsonTextTextTheme( Theme.of(context).textTheme )
+        ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Flutter'),
-        ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0), 
+          child: AppBar(
+            title: Text("Deins.", style: TextStyle(fontFamily: GoogleFonts.getFont("Crimson Text").fontFamily, fontSize: 36)),
+            centerTitle: true
+          )
+        ), 
         body: Center(
-          child: Text('Hello World'),
+          child: Timeline(),
         ),
+        backgroundColor: Colors.white
       ),
     );
   }
