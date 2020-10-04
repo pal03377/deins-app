@@ -1,3 +1,4 @@
+import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,7 @@ class _TimelineListState extends State<TimelineList> {
             )
           ), 
           Padding(
-            padding: EdgeInsets.only(left: 16, right: 16), 
+            padding: const EdgeInsets.only(left: 16, right: 16), 
             child: Image.asset(
               "img/types/" + entry.type + ".png", 
               width: 85, 
@@ -66,7 +67,17 @@ class _TimelineListState extends State<TimelineList> {
             )
           )
         ]
-      )
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            // NEW lines from here...
+            builder: (BuildContext context) {
+              return DrawPage(entry);
+            }
+          ),
+        );
+      }
     );
   }
 
@@ -92,7 +103,7 @@ class _TimelineListState extends State<TimelineList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 32), 
+      padding: const EdgeInsets.only(top: 32), 
       child: _buildEntries()
     );
   }

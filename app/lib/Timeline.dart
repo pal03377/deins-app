@@ -17,13 +17,13 @@ class _TimelineState extends State<Timeline> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 32), 
+              padding: const EdgeInsets.only(top: 32), 
               child: Text("today", style: TextStyle(fontSize: 28))
             ), 
             Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 12), 
+                  padding: const EdgeInsets.only(top: 12), 
                   child: Center(
                     child: Container(
                       child: SizedBox(
