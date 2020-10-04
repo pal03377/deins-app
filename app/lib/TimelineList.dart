@@ -1,29 +1,21 @@
-import 'dart:math';
-
 import 'package:deins/Entry.dart';
 import 'package:flutter/material.dart';
 
 
 class TimelineList extends StatefulWidget {
   final List<Entry> _entries = [
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
-    Entry(DateTime(0), "test", 0.5), 
+    Entry(new DateTime.utc(2020, 10, 3), "career", 0.5), 
+    Entry(new DateTime.utc(2020, 10, 2), "health", 0.5), 
+    Entry(new DateTime.utc(2020, 10, 2), "personality", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 29), "friends", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 29), "health", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 29), "health", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 26), "personality", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 26), "friends", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 25), "career", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 24), "career", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 23), "personality", 0.5), 
+    Entry(new DateTime.utc(2020, 9, 23), "friends", 0.5), 
   ];
 
   @override
@@ -37,10 +29,44 @@ class _TimelineListState extends State<TimelineList> {
   final _entries = <Entry>[];
 
   Widget _buildRow(entry) {
+    final textStyle = TextStyle(
+      fontSize: 28
+    );
     return ListTile(
-      title: Text(
-        entry.type
-      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Opacity(
+            opacity: .75,
+            child: SizedBox(
+              width: 150, 
+              child: Text(
+                entry.creationDate.year.toString() + "-" + 
+                entry.creationDate.month.toString() + "-" + 
+                entry.creationDate.day.toString(), 
+                style: textStyle, 
+                textAlign: TextAlign.right
+              )
+            )
+          ), 
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16), 
+            child: Image.asset(
+              "img/types/" + entry.type + ".png", 
+              width: 85, 
+              height: 85
+            )
+          ), 
+          Opacity(
+            opacity: .75,
+            child: SizedBox(
+              width: 150, 
+              child: Text(entry.type, style: textStyle)
+            )
+          )
+        ]
+      )
     );
   }
 
@@ -65,6 +91,9 @@ class _TimelineListState extends State<TimelineList> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildEntries();
+    return Padding(
+      padding: EdgeInsets.only(top: 32), 
+      child: _buildEntries()
+    );
   }
 }
