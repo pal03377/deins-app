@@ -1,22 +1,23 @@
 import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
+import 'package:deins/EntryType.dart';
 import 'package:flutter/material.dart';
 
 
 class TimelineList extends StatefulWidget {
   final List<Entry> _entries = [
-    Entry(new DateTime.utc(2020, 10, 3), "career", 0.5), 
-    Entry(new DateTime.utc(2020, 10, 2), "health", 0.5), 
-    Entry(new DateTime.utc(2020, 10, 2), "personality", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 29), "friends", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 29), "health", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 29), "health", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 26), "personality", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 26), "friends", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 25), "career", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 24), "career", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 23), "personality", 0.5), 
-    Entry(new DateTime.utc(2020, 9, 23), "friends", 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health), 0.5), 
   ];
 
   @override
@@ -54,7 +55,7 @@ class _TimelineListState extends State<TimelineList> {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16), 
             child: Image.asset(
-              "img/types/" + entry.type + ".png", 
+              "img/types/" + entry.type.name + ".png", 
               width: 85, 
               height: 85
             )
@@ -63,7 +64,7 @@ class _TimelineListState extends State<TimelineList> {
             opacity: .75,
             child: SizedBox(
               width: 150, 
-              child: Text(entry.type, style: textStyle)
+              child: Text(entry.type.name, style: textStyle)
             )
           )
         ]

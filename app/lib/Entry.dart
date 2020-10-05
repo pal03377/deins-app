@@ -1,8 +1,15 @@
+import 'package:deins/TouchPoint.dart';
+import 'package:deins/EntryType.dart';
+
+
 class Entry {
   DateTime creationDate;
-  String type;
+  EntryType type;
   double percentage;
-  // TODO: drawing data
+  List<TouchPoint> drawPoints;
 
-  Entry(this.creationDate, this.type, this.percentage);
+  Entry(this.creationDate, this.type, this.percentage, this.drawPoints);
+  Entry.noDrawing(this.creationDate, this.type, this.percentage) {
+    this.drawPoints = List();
+  }
 }
