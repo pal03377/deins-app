@@ -35,8 +35,8 @@ class EntryType {
     switch (_me) {
       case EntryType.career:
         // draw triangle
-        res.moveTo(0, 200);
-        res.lineTo(200, 200);
+        res.moveTo(0, 173);
+        res.lineTo(200, 173);
         res.lineTo(100, 0);
         res.close();
         break;
