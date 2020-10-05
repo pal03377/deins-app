@@ -38,9 +38,8 @@ class _TimelineState extends State<Timeline> {
                   )
                 ),
                 TimelineList()
-          ],
-        )
-        
+              ],
+            )
           ]
         )
       ]

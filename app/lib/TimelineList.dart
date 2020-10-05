@@ -1,6 +1,7 @@
 import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryType.dart';
+import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
 
 
@@ -46,18 +47,18 @@ class _TimelineListState extends State<TimelineList> {
               child: Text(
                 entry.creationDate.year.toString() + "-" + 
                 entry.creationDate.month.toString() + "-" + 
-                entry.creationDate.day.toString(), 
-                style: textStyle, 
+                entry.creationDate.day.toString(),
+                style: textStyle,
                 textAlign: TextAlign.right
               )
             )
           ), 
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16), 
-            child: Image.asset(
-              "img/types/" + entry.type.name + ".png", 
-              width: 85, 
-              height: 85
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8), 
+            child: SizedBox(
+              child: TypeDraw.possibleDisable(entry, Size(75, 75), true),
+              width: 75, 
+              height: 75
             )
           ), 
           Opacity(

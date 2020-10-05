@@ -31,20 +31,32 @@ class EntryType {
   }
 
   Path get shape {
-    Path res;
+    Path res = Path();
     switch (_me) {
       case EntryType.career:
         // draw triangle
         res.moveTo(0, 200);
         res.lineTo(200, 200);
         res.lineTo(100, 0);
-        res.lineTo(0, 200);
+        res.close();
         break;
       case EntryType.health:
+        res.addOval(Rect.fromCircle(
+          center: Offset(50, 50),
+          radius: 50.0,
+        ));
         break;
       case EntryType.personality:
+        res.addOval(Rect.fromCircle(
+          center: Offset(50, 50),
+          radius: 50.0,
+        ));
         break;
       case EntryType.friends:
+        res.addOval(Rect.fromCircle(
+          center: Offset(50, 50),
+          radius: 50.0,
+        ));
         break;
     }
     return res;

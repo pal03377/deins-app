@@ -6,56 +6,64 @@ import 'package:flutter/material.dart';
 
 
 class TypeDraw extends StatefulWidget {
-  final Entry _entry;
-  TypeDraw(this._entry);
+  Entry _entry;
+  Size _size;
+  bool disabled = false;
+  TypeDraw(this._entry, this._size);
+  TypeDraw.possibleDisable(this._entry, this._size, this.disabled);
 
   @override
-  _TypeDrawState createState() => _TypeDrawState(_entry);
+  _TypeDrawState createState() => _TypeDrawState(_entry, _size, disabled);
 }
 
 class _TypeDrawState extends State<TypeDraw> {
   Entry _entry;
-  _TypeDrawState(this._entry);
+  Size _size;
+  bool _disabled = false;
+  _TypeDrawState(this._entry, this._size, this._disabled);
 
   @override
   Widget build(BuildContext context) {
-    Size size = Size(200, 200);
-    Path path = Path();
-    path.lineTo(0.0, 0.0);
-    path.lineTo(size.width, 0.0);
-    path.lineTo(size.width, size.height * 0.8);
-    path.lineTo(0.0, size.height);
-    path.close();
+    Path path = _entry.type.shape;
+    // resize path to fit size - https://stackoverflow.com/a/57874894/4306257
+    final Rect pathBounds = path.getBounds();
 
-    return GestureDetector(
-      child: ClipPath(
-        clipper: PathClipper(path),
-        child: CustomPaint(
-          size: Size(200, 200),
-          painter: DrawPainter(_entry, path)
-        )
-      ), 
-      onPanStart: (details) {
-        setState(() {
-          RenderBox renderBox = context.findRenderObject();
-          _entry.drawPoints.add(TouchPoint(
-            points: renderBox.globalToLocal(details.globalPosition)
-          ));
-        });
-      },
-      onPanUpdate: (details) {
-        setState(() {
-          RenderBox renderBox = context.findRenderObject();
-          _entry.drawPoints.add(TouchPoint(
-            points: renderBox.globalToLocal(details.globalPosition)
-          ));
-        });
-      },
-      onPanEnd: (details) {
-        setState(() {
-          _entry.drawPoints.add(null);
-        });
-      }
+    final Matrix4 matrix4 = Matrix4.identity();
+    matrix4.scale(_size.width / pathBounds.width, _size.height / pathBounds.height);
+    path = path.transform(matrix4.storage);
+
+    return IgnorePointer(
+      ignoring: _disabled, 
+      child: GestureDetector(
+        child: ClipPath(
+          clipper: PathClipper(path),
+          child: CustomPaint(
+            size: _size,
+            painter: DrawPainter(_entry, path)
+          )
+        ), 
+        onPanStart: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            _entry.drawPoints.add(TouchPoint(
+              points: renderBox.globalToLocal(details.globalPosition)
+            ));
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            _entry.drawPoints.add(TouchPoint(
+              points: renderBox.globalToLocal(details.globalPosition)
+            ));
+          });
+        },
+        onPanEnd: (details) {
+          setState(() {
+            _entry.drawPoints.add(null);
+          });
+        }
+      ),
     );
   }
 }
@@ -72,17 +80,15 @@ class DrawPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    Paint backgroundPaint = new Paint()
+      ..color = Colors.white;
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
+
     Paint paint = new Paint()
-      ..color = Colors.black
+      ..color = _entry.type.color
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
-    Paint borderPaint = new Paint()
-      ..color = Colors.black
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 28;
-    canvas.drawPath(_path, borderPaint);
+      ..strokeWidth = 0.08 * size.width;
 
     // https://ptyagicodecamp.github.io/building-cross-platform-finger-painting-app-in-flutter.html
     for (int i = 0; i < _entry.drawPoints.length - 1; i++) {
@@ -97,6 +103,20 @@ class DrawPainter extends CustomPainter {
         canvas.drawPoints(PointMode.points, offsetPoints, paint);
       }
     }
+
+    Paint borderPaint = new Paint()
+      ..color = Colors.black
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.08 * size.width;
+    Path borderPath = Path.from(_path);
+    // scale down border path so that not half of the line is clipped away
+    final Rect pathBounds = borderPath.getBounds();
+    final Matrix4 matrix4 = Matrix4.identity();
+    matrix4.scale((pathBounds.width - borderPaint.strokeWidth) / pathBounds.width, (pathBounds.width - borderPaint.strokeWidth) / pathBounds.height);
+    matrix4.translate(borderPaint.strokeWidth / 2, borderPaint.strokeWidth / 2);
+    borderPath = borderPath.transform(matrix4.storage);
+    canvas.drawPath(borderPath, borderPaint);
   }
   
   @override
