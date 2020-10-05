@@ -9,15 +9,15 @@ class TimelineList extends StatefulWidget {
   final List<Entry> _entries = [
     Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.self), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.personality), 0.5), 
+    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.self), 0.5), 
     Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health), 0.5), 
   ];
 
@@ -56,7 +56,7 @@ class _TimelineListState extends State<TimelineList> {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8), 
             child: SizedBox(
-              child: TypeDraw.possibleDisable(entry, Size(75, 75), true),
+              child: TypeDraw(entry, Size(75, 75), true),
               width: 75, 
               height: 75
             )

@@ -3,14 +3,20 @@ import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
 
 
-class DrawPage extends StatelessWidget {
+class DrawPage extends StatefulWidget {
   final Entry _entry;
   DrawPage(this._entry);
 
   @override
+  _DrawPageState createState() => _DrawPageState(_entry);
+}
+
+class _DrawPageState extends State<DrawPage> {
+  Entry _entry;
+  _DrawPageState(this._entry);
+
+  @override
   Widget build(BuildContext context) {
-    print("entry");
-    print(_entry);
     final screenWidth = MediaQuery.of(context).size.width;
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
     return Scaffold(
@@ -50,7 +56,7 @@ class DrawPage extends StatelessWidget {
                     )
                   )
                 ),
-                TypeDraw(_entry, drawSize)
+                TypeDraw(_entry, drawSize, false)
               ]
             )
           )

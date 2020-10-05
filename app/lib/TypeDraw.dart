@@ -1,19 +1,19 @@
 import 'dart:ui';
 
 import 'package:deins/Entry.dart';
+import 'package:deins/EntryType.dart';
 import 'package:deins/TouchPoint.dart';
 import 'package:flutter/material.dart';
 
 
 class TypeDraw extends StatefulWidget {
-  Entry _entry;
-  Size _size;
-  bool disabled = false;
-  TypeDraw(this._entry, this._size);
-  TypeDraw.possibleDisable(this._entry, this._size, this.disabled);
+  final Entry _entry;
+  final Size _size;
+  final bool _disabled;
+  TypeDraw(this._entry, this._size, this._disabled);
 
   @override
-  _TypeDrawState createState() => _TypeDrawState(_entry, _size, disabled);
+  _TypeDrawState createState() => _TypeDrawState(_entry, _size, _disabled);
 }
 
 class _TypeDrawState extends State<TypeDraw> {
