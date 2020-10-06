@@ -30,7 +30,9 @@ class EntryType {
       case "environment": this._me = EntryType.environment; break;
       case "sleep": this._me = EntryType.sleep; break;
       case "finances": this._me = EntryType.finances; break;
-      default: throw Exception("name " + (name != null ? name : "[falsy value]") + " not recognized");
+      default:
+        print("name " + (name != null ? name : "[falsy value]") + " not recognized");
+        this._me = EntryType.none;
     }
   }
 
