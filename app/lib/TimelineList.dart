@@ -43,8 +43,8 @@ class _TimelineListState extends State<TimelineList> {
               child: TextButton(
                 child: Text(
                   entry.creationDate.year.toString() + "-" + 
-                  entry.creationDate.month.toString() + "-" + 
-                  entry.creationDate.day.toString(),
+                  entry.creationDate.month.toString().padLeft(2, "0") + "-" + 
+                  entry.creationDate.day.toString().padLeft(2, "0"),
                   style: TextStyle(fontSize: 28),
                   textAlign: TextAlign.right
                 ),
