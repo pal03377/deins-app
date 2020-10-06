@@ -54,8 +54,8 @@ class _TimelineListState extends State<TimelineList> {
           ),
           Padding(
             padding: EdgeInsets.only(
-              left: (screenWidth >= 500 ? 16 : 0),
-              right: (screenWidth >= 500 ? 16 : 0),
+              left: (screenWidth >= 500 ? 16 : 6),
+              right: (screenWidth >= 500 ? 16 : 6),
               top: 8,
               bottom: 8
             ),
