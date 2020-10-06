@@ -1,6 +1,7 @@
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
+import 'package:deins/storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,24 +10,22 @@ import 'package:provider/provider.dart';
 
 import 'Timeline.dart';
 
-final List<Entry> _entries = [
-  Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career)), 
-  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health)), 
-  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health)), 
-];
-
 
 void main() {
+  EntryModel eModel = EntryModel();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  runApp(ChangeNotifierProvider(
-    create: (context) => EntryModel.fromEntries(_entries),
+  runApp(ChangeNotifierProvider.value(
+    value: eModel,
     child: App()
   ));
+
+  loadEntries().then((entries) => eModel.addAll(entries));
+  eModel.addListener(() {
+    storeEntries(eModel.entries);
+  });
 }
 
 class App extends StatelessWidget {

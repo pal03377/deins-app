@@ -10,6 +10,20 @@ class EntryType {
 
   var _me;
   EntryType(this._me);
+  EntryType.fromName(String name) {
+    if (name == null) {
+      this._me = EntryType.none;
+      return;
+    }
+    switch (name) {
+      case "?": this._me = EntryType.none; break;
+      case "career": this._me = EntryType.career; break;
+      case "health": this._me = EntryType.health; break;
+      case "self": this._me = EntryType.self; break;
+      case "friends": this._me = EntryType.friends; break;
+      default: throw Exception("name " + (name != null ? name : "[falsy value]") + " not recognized");
+    }
+  }
 
   bool get empty {
     return _me == EntryType.none;

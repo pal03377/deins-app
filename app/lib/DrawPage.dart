@@ -37,6 +37,8 @@ class DrawPage extends StatelessWidget {
     }
     final screenWidth = MediaQuery.of(context).size.width;
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
+    final todayAtMidnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0);
+    final isToday = _entry.creationDate.isAfter(todayAtMidnight);
     return Consumer<EntryModel>(
       builder: (context, entryModel, child) {
         return Scaffold(
@@ -63,7 +65,7 @@ class DrawPage extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text.rich(
                         TextSpan(
-                          text: "Draw how you feel \nabout your ", 
+                          text: "Draw how you " + (isToday ? "feel" : "felt") + " \nabout your ", 
                           style: TextStyle(fontSize: 36, height: 1.2),
                             children: [
                               TextSpan(

@@ -4,8 +4,9 @@ import 'package:deins/Entry.dart';
 
 class EntryModel extends ChangeNotifier {
 
-  List<Entry> entries;
+  List<Entry> entries = [];
 
+  EntryModel();
   EntryModel.fromEntries(this.entries);
 
   void add(Entry entry) {
@@ -13,9 +14,12 @@ class EntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addAll(List<Entry> entries) {
+    this.entries.addAll(entries);
+    notifyListeners();
+  }
+
   void remove(Entry entry) {
-    print(entries.remove(entry));
-    print(entries.map((e) => e.type.name));
     notifyListeners();
   }
 
