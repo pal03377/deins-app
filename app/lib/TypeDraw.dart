@@ -32,47 +32,41 @@ class _TypeDrawState extends State<TypeDraw> {
     matrix4.scale(_size.width / pathBounds.width, _size.height / pathBounds.height);
     path = path.transform(matrix4.storage);
 
-    return Consumer<EntryModel>(
-      builder: (context, entryModel, child) {
-        if (this._disabled) print("build");
-        DrawPainter painter = DrawPainter(_entry, path, _disabled);
-        return IgnorePointer(
-          ignoring: false, /*_disabled*/
-          child: GestureDetector(
-            child: ClipPath(
-              clipper: PathClipper(path),
-              child: CustomPaint(
-                size: _size,
-                painter: painter
-              )
-            ), 
-            onPanStart: (details) {
-              setState(() {
-                RenderBox renderBox = context.findRenderObject();
-                Offset point = renderBox.globalToLocal(details.globalPosition);
-                // store point relative to size
-                point = Offset(point.dx / _size.width, point.dy / _size.height);
-                _entry.drawPoints.add(point);
-              });
-            },
-            onPanUpdate: (details) {
-              setState(() {
-                RenderBox renderBox = context.findRenderObject();
-                Offset point = renderBox.globalToLocal(details.globalPosition);
-                // store point relative to size
-                point = Offset(point.dx / _size.width, point.dy / _size.height);
-                _entry.drawPoints.add(point);
-              });
-            },
-            onPanEnd: (details) {
-              setState(() {
-                _entry.drawPoints.add(null);
-              });
-              Provider.of<EntryModel>(context, listen: false).indicateChange();
-            }
-          ),
-        );
-      }
+    return IgnorePointer(
+      ignoring: false, /*_disabled*/
+      child: GestureDetector(
+        child: ClipPath(
+          clipper: PathClipper(path),
+          child: CustomPaint(
+            size: _size,
+            painter: DrawPainter(_entry, path, _disabled)
+          )
+        ), 
+        onPanStart: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            Offset point = renderBox.globalToLocal(details.globalPosition);
+            // store point relative to size
+            point = Offset(point.dx / _size.width, point.dy / _size.height);
+            _entry.drawPoints.add(point);
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            Offset point = renderBox.globalToLocal(details.globalPosition);
+            // store point relative to size
+            point = Offset(point.dx / _size.width, point.dy / _size.height);
+            _entry.drawPoints.add(point);
+          });
+        },
+        onPanEnd: (details) {
+          setState(() {
+            _entry.drawPoints.add(null);
+          });
+          Provider.of<EntryModel>(context, listen: false).indicateChange();
+        }
+      ),
     );
   }
 }
