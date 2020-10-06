@@ -37,6 +37,9 @@ class DrawPage extends StatelessWidget {
        _openEntryTypeSelectDialog(context);
     }
     final screenWidth = MediaQuery.of(context).size.width;
+    final textStyle = TextStyle(
+      fontSize: screenWidth >= 500 ? 28 : 22
+    );
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
     final todayAtMidnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0);
     final isToday = _entry.creationDate.isAfter(todayAtMidnight);
@@ -57,7 +60,7 @@ class DrawPage extends StatelessWidget {
                 )
               ), 
               Padding(
-                padding: const EdgeInsets.only(top: 96, bottom: 96), 
+                padding: const EdgeInsets.only(top: 96, bottom: 48), 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +70,7 @@ class DrawPage extends StatelessWidget {
                       child: Text.rich(
                         TextSpan(
                           text: "Draw how you " + (isToday ? "feel" : "felt") + " \nabout your ", 
-                          style: TextStyle(fontSize: 36, height: 1.2),
+                          style: TextStyle(fontSize: (screenWidth >= 500 ? 36 : 28), height: 1.2),
                             children: [
                               TextSpan(
                                 text: _entry.type.name, 
@@ -84,18 +87,21 @@ class DrawPage extends StatelessWidget {
                     ),
                     TypeDraw(entry: _entry, size: drawSize, disabled: false),
                     Padding(
-                      padding: const EdgeInsets.only(left: 32, right: 32),
+                      padding: EdgeInsets.only(
+                        left: (screenWidth >= 500 ? 32 : 8), 
+                        right: (screenWidth >= 500 ? 32 : 8)
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 145, 
+                            width: (screenWidth >= 500 ? 145 : 110), 
                             child: TextButton(
                               child: Text(
                                 _entry.creationDate.year.toString() + "-" + 
                                 _entry.creationDate.month.toString() + "-" + 
                                 _entry.creationDate.day.toString(),
-                                style: TextStyle(fontSize: 28),
+                                style: textStyle,
                                 textAlign: TextAlign.right
                               ),
                               onPressed: () {
@@ -114,11 +120,11 @@ class DrawPage extends StatelessWidget {
                             elevation: 4.0,
                           ),
                           SizedBox(
-                            width: 145,
+                            width: (screenWidth >= 500 ? 145 : 110),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: IconButton(
-                                icon: Icon(_entry.drawPoints.length > 0 ? Icons.replay : Icons.delete_outline, size: 32), 
+                                icon: Icon(_entry.drawPoints.length > 0 ? Icons.replay : Icons.delete_outline, size: (screenWidth >= 500 ? 32 : 28)), 
                                 onPressed: () {
                                   if (_entry.drawPoints.length > 0) {
                                     _entry.clearDrawings();

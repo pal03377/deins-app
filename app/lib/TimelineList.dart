@@ -28,10 +28,12 @@ class _TimelineListState extends State<TimelineList> {
   }
 
   Widget _buildRow(entry) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     final textStyle = TextStyle(
-      fontSize: 28
+      fontSize: screenWidth >= 500 ? 28 : 22
     );
     return ListTile(
+      contentPadding: const EdgeInsets.all(0),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,31 +41,31 @@ class _TimelineListState extends State<TimelineList> {
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 145, 
-              child: TextButton(
-                child: Text(
-                  entry.creationDate.year.toString() + "-" + 
-                  entry.creationDate.month.toString().padLeft(2, "0") + "-" + 
-                  entry.creationDate.day.toString().padLeft(2, "0"),
-                  style: TextStyle(fontSize: 28),
-                  textAlign: TextAlign.right
-                ),
-                onPressed: () {
-                  showEntryDatePicker(context, entry);
-                },
-                style: TextButton.styleFrom(primary: Colors.black)
+              width: screenWidth >= 500 ? 145 : 116, 
+              child: Text(
+                entry.creationDate.year.toString() + "-" + 
+                entry.creationDate.month.toString().padLeft(2, "0") + "-" + 
+                entry.creationDate.day.toString().padLeft(2, "0"),
+                style: textStyle,
+                textAlign: TextAlign.right,
+                softWrap: false
               )
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+            padding: EdgeInsets.only(
+              left: (screenWidth >= 500 ? 16 : 0),
+              right: (screenWidth >= 500 ? 16 : 0),
+              top: 8,
+              bottom: 8
+            ),
             child: TypeDraw(entry: entry, size: Size(75, 75), disabled: true)
           ),
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 145, 
-              child: Text(entry.type.name, style: textStyle)
+              width: screenWidth >= 500 ? 145 : 116, 
+              child: Text(entry.type.name, style: textStyle, softWrap: false)
             )
           )
         ]
