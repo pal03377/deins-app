@@ -1,34 +1,19 @@
 import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
-import 'package:deins/EntryType.dart';
+import 'package:deins/EntryModel.dart';
 import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class TimelineList extends StatefulWidget {
-  final List<Entry> _entries = [
-    Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.self), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.self), 0.5), 
-    Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health), 0.5), 
-  ];
-
   @override
-  _TimelineListState createState() => _TimelineListState(_entries);
+  _TimelineListState createState() => _TimelineListState();
 }
 
 
 class _TimelineListState extends State<TimelineList> {
-  var _allEntries;
-  _TimelineListState(this._allEntries);
+  _TimelineListState();
   final _entries = <Entry>[];
 
   Widget _buildRow(entry) {
@@ -43,7 +28,7 @@ class _TimelineListState extends State<TimelineList> {
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 150, 
+              width: 115, 
               child: Text(
                 entry.creationDate.year.toString() + "-" + 
                 entry.creationDate.month.toString() + "-" + 
@@ -64,7 +49,7 @@ class _TimelineListState extends State<TimelineList> {
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 150, 
+              width: 115, 
               child: Text(entry.type.name, style: textStyle)
             )
           )
@@ -84,20 +69,25 @@ class _TimelineListState extends State<TimelineList> {
   }
 
   Widget _buildEntries() {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: _allEntries.length, 
-      itemBuilder: (context, index) {
-        if (index >= _allEntries.length) return null;
-        if (index >= _entries.length && _entries.length < _allEntries.length) {
-          int rangeEnd = _entries.length + 10;
-          if (rangeEnd >= _allEntries.length) rangeEnd = _allEntries.length;
-          _entries.addAll(_allEntries.sublist(
-            _entries.length, rangeEnd
-          ));
-        }
-        return _buildRow(_entries[index]);
+    return Consumer<EntryModel>(
+      builder: (context, entryModel, child) {
+        List<Entry> allEntries = entryModel.entries;
+        return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: allEntries.length, 
+          itemBuilder: (context, index) {
+            if (index >= allEntries.length) return null;
+            if (index >= _entries.length && _entries.length < allEntries.length) {
+              int rangeEnd = _entries.length + 10;
+              if (rangeEnd >= allEntries.length) rangeEnd = allEntries.length;
+              _entries.addAll(allEntries.sublist(
+                _entries.length, rangeEnd
+              ));
+            }
+            return _buildRow(_entries[index]);
+          }
+        );
       }
     );
   }

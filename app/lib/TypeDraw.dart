@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:deins/Entry.dart';
-import 'package:deins/EntryType.dart';
+import 'package:deins/EntryModel.dart';
 import 'package:deins/TouchPoint.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class TypeDraw extends StatefulWidget {
@@ -32,73 +33,83 @@ class _TypeDrawState extends State<TypeDraw> {
     matrix4.scale(_size.width / pathBounds.width, _size.height / pathBounds.height);
     path = path.transform(matrix4.storage);
 
-    return IgnorePointer(
-      ignoring: _disabled, 
-      child: GestureDetector(
-        child: ClipPath(
-          clipper: PathClipper(path),
-          child: CustomPaint(
-            size: _size,
-            painter: DrawPainter(_entry, path)
-          )
-        ), 
-        onPanStart: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            _entry.drawPoints.add(TouchPoint(
-              points: renderBox.globalToLocal(details.globalPosition)
-            ));
-          });
-        },
-        onPanUpdate: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            _entry.drawPoints.add(TouchPoint(
-              points: renderBox.globalToLocal(details.globalPosition)
-            ));
-          });
-        },
-        onPanEnd: (details) {
-          setState(() {
-            _entry.drawPoints.add(null);
-          });
-        }
-      ),
+    return Consumer<EntryModel>(
+      builder: (context, entryModel, child) {
+        if (this._disabled) print("build");
+        DrawPainter painter = DrawPainter(_entry, path, _disabled);
+        return IgnorePointer(
+          ignoring: false, /*_disabled*/
+          child: GestureDetector(
+            child: ClipPath(
+              clipper: PathClipper(path),
+              child: CustomPaint(
+                size: _size,
+                painter: painter
+              )
+            ), 
+            onPanStart: (details) {
+              setState(() {
+                RenderBox renderBox = context.findRenderObject();
+                _entry.drawPoints.add(TouchPoint(
+                  points: renderBox.globalToLocal(details.globalPosition)
+                ));
+              });
+            },
+            onPanUpdate: (details) {
+              setState(() {
+                RenderBox renderBox = context.findRenderObject();
+                _entry.drawPoints.add(TouchPoint(
+                  points: renderBox.globalToLocal(details.globalPosition)
+                ));
+              });
+            },
+            onPanEnd: (details) {
+              setState(() {
+                _entry.drawPoints.add(null);
+              });
+              Provider.of<EntryModel>(context, listen: false).indicateChange();
+            }
+          ),
+        );
+      }
     );
   }
 }
 
 
 class DrawPainter extends CustomPainter {
-  Entry _entry;
+  Entry entry;
   List<Offset> offsetPoints = List();
   Path _path;
+  bool _disabled;
 
-  DrawPainter(this._entry, this._path);
-
-  Entry getEntry() { return _entry; }
+  DrawPainter(this.entry, this._path, this._disabled) {
+    if (_disabled) print("painter init");
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (_disabled) print("paint");
+  
     Paint backgroundPaint = new Paint()
       ..color = Colors.white;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
 
     Paint paint = new Paint()
-      ..color = _entry.type.color
+      ..color = entry.type.color
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.08 * size.width;
 
     // https://ptyagicodecamp.github.io/building-cross-platform-finger-painting-app-in-flutter.html
-    for (int i = 0; i < _entry.drawPoints.length - 1; i++) {
-      if (_entry.drawPoints[i] != null && _entry.drawPoints[i + 1] != null) {
+    for (int i = 0; i < entry.drawPoints.length - 1; i++) {
+      if (entry.drawPoints[i] != null && entry.drawPoints[i + 1] != null) {
         // Drawing line when two consecutive points are available
-        canvas.drawLine(_entry.drawPoints[i].points, _entry.drawPoints[i + 1].points, paint);
-      } else if (_entry.drawPoints[i] != null && _entry.drawPoints[i + 1] == null) {
+        canvas.drawLine(entry.drawPoints[i].points, entry.drawPoints[i + 1].points, paint);
+      } else if (entry.drawPoints[i] != null && entry.drawPoints[i + 1] == null) {
         offsetPoints.clear();
-        offsetPoints.add(_entry.drawPoints[i].points);
-        offsetPoints.add(Offset(_entry.drawPoints[i].points.dx + 0.1, _entry.drawPoints[i].points.dy + 0.1));
+        offsetPoints.add(entry.drawPoints[i].points);
+        offsetPoints.add(Offset(entry.drawPoints[i].points.dx + 0.1, entry.drawPoints[i].points.dy + 0.1));
         // Draw points when two points are not next to each other
         canvas.drawPoints(PointMode.points, offsetPoints, paint);
       }

@@ -22,10 +22,10 @@ class EntryType {
 
   Color get color {
     switch (_me) {
-      case EntryType.career: return Colors.red;
+      case EntryType.career: return Colors.yellow;
       case EntryType.health: return Colors.green;
-      case EntryType.self: return Colors.blue;
-      case EntryType.friends: return Colors.pink;
+      case EntryType.self: return Colors.red;
+      case EntryType.friends: return Colors.blue;
       default: return null;
     }
   }
@@ -53,9 +53,12 @@ class EntryType {
         ));
         break;
       case EntryType.friends:
-        res.addOval(Rect.fromCircle(
-          center: Offset(50, 50),
-          radius: 50.0,
+        res.addRRect(RRect.fromRectAndRadius(
+          Rect.fromCircle(
+            center: Offset(50, 50),
+            radius: 50.0,
+          ), 
+          Radius.circular(8)
         ));
         break;
     }

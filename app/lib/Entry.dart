@@ -12,4 +12,5 @@ class Entry {
   Entry.noDrawing(this.creationDate, this.type, this.percentage) {
     this.drawPoints = List();
   }
+
 }

@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   # pre-packaging Google Fonts automatically
   google_fonts: ^1.1.0
+  # state management
+  provider: ^4.3.2
 
 dev_dependencies:
   flutter_test:
