@@ -46,10 +46,12 @@ class TypeDraw extends StatelessWidget {
         onPanUpdate: (details) {
           RenderBox renderBox = context.findRenderObject();
           Offset point = renderBox.globalToLocal(details.globalPosition);
-          // store point relative to size
-          point = Offset(point.dx / size.width, point.dy / size.height);
-          entry.drawPoints.add(point);
-          Provider.of<EntryModel>(context, listen: false).indicateChange();
+          if (path.contains(point)) {
+            // store point relative to size
+            point = Offset(point.dx / size.width, point.dy / size.height);
+            entry.drawPoints.add(point);
+            Provider.of<EntryModel>(context, listen: false).indicateChange();
+          }
         },
         onPanEnd: (details) {
           entry.drawPoints.add(null);
