@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class TypeDraw extends StatefulWidget {
+class TypeDraw extends StatelessWidget {
   final Entry entry;
   final Size size;
   final bool disabled;
@@ -15,25 +15,14 @@ class TypeDraw extends StatefulWidget {
   TypeDraw({ this.entry, this.size, this.disabled, this.fillColor=Colors.white });
 
   @override
-  _TypeDrawState createState() => _TypeDrawState(entry, size, disabled, fillColor);
-}
-
-class _TypeDrawState extends State<TypeDraw> {
-  Entry _entry;
-  Size _size;
-  bool _disabled = false;
-  Color _fillColor;
-  _TypeDrawState(this._entry, this._size, this._disabled, this._fillColor);
-
-  @override
   Widget build(BuildContext context) {
-    Path path = _entry.type.shape;
+    Path path = entry.type.shape;
     // resize path to fit size - https://stackoverflow.com/a/57874894/4306257
     final Rect pathBounds = path.getBounds();
 
     final Matrix4 matrix4 = Matrix4.identity();
     // shapes are drawn based on a 100x100 area
-    matrix4.scale(min(_size.width / pathBounds.width, _size.height / 100));
+    matrix4.scale(min(size.width / pathBounds.width, size.height / 100));
     path = path.transform(matrix4.storage);
 
     return IgnorePointer(
@@ -42,32 +31,28 @@ class _TypeDrawState extends State<TypeDraw> {
         child: ClipPath(
           clipper: PathClipper(path),
           child: CustomPaint(
-            size: _size,
-            painter: DrawPainter(_entry, path, _fillColor)
+            size: size,
+            painter: DrawPainter(entry, path, fillColor)
           )
         ), 
         onPanStart: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            Offset point = renderBox.globalToLocal(details.globalPosition);
-            // store point relative to size
-            point = Offset(point.dx / _size.width, point.dy / _size.height);
-            _entry.drawPoints.add(point);
-          });
+          RenderBox renderBox = context.findRenderObject();
+          Offset point = renderBox.globalToLocal(details.globalPosition);
+          // store point relative to size
+          point = Offset(point.dx / size.width, point.dy / size.height);
+          entry.drawPoints.add(point);
+          Provider.of<EntryModel>(context, listen: false).indicateChange();
         },
         onPanUpdate: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            Offset point = renderBox.globalToLocal(details.globalPosition);
-            // store point relative to size
-            point = Offset(point.dx / _size.width, point.dy / _size.height);
-            _entry.drawPoints.add(point);
-          });
+          RenderBox renderBox = context.findRenderObject();
+          Offset point = renderBox.globalToLocal(details.globalPosition);
+          // store point relative to size
+          point = Offset(point.dx / size.width, point.dy / size.height);
+          entry.drawPoints.add(point);
+          Provider.of<EntryModel>(context, listen: false).indicateChange();
         },
         onPanEnd: (details) {
-          setState(() {
-            _entry.drawPoints.add(null);
-          });
+          entry.drawPoints.add(null);
           Provider.of<EntryModel>(context, listen: false).indicateChange();
         }
       )

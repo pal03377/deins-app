@@ -49,8 +49,8 @@ class _TimelineListState extends State<TimelineList> {
             )
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8), 
-            child: TypeDraw(entry: Entry.from(entry), size: Size(75, 75), disabled: true)
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+            child: TypeDraw(entry: entry, size: Size(75, 75), disabled: true)
           ),
           Opacity(
             opacity: .75,
