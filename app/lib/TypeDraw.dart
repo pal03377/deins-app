@@ -38,44 +38,39 @@ class _TypeDrawState extends State<TypeDraw> {
 
     return IgnorePointer(
       ignoring: false, /*_disabled*/
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: max(0, (_size.height - path.getBounds().height) / 2)
-        ),
-        child: GestureDetector(
-          child: ClipPath(
-            clipper: PathClipper(path),
-            child: CustomPaint(
-              size: _size,
-              painter: DrawPainter(_entry, path, _fillColor)
-            )
-          ), 
-          onPanStart: (details) {
-            setState(() {
-              RenderBox renderBox = context.findRenderObject();
-              Offset point = renderBox.globalToLocal(details.globalPosition);
-              // store point relative to size
-              point = Offset(point.dx / _size.width, point.dy / _size.height);
-              _entry.drawPoints.add(point);
-            });
-          },
-          onPanUpdate: (details) {
-            setState(() {
-              RenderBox renderBox = context.findRenderObject();
-              Offset point = renderBox.globalToLocal(details.globalPosition);
-              // store point relative to size
-              point = Offset(point.dx / _size.width, point.dy / _size.height);
-              _entry.drawPoints.add(point);
-            });
-          },
-          onPanEnd: (details) {
-            setState(() {
-              _entry.drawPoints.add(null);
-            });
-            Provider.of<EntryModel>(context, listen: false).indicateChange();
-          }
-        ),
-      ),
+      child: GestureDetector(
+        child: ClipPath(
+          clipper: PathClipper(path),
+          child: CustomPaint(
+            size: _size,
+            painter: DrawPainter(_entry, path, _fillColor)
+          )
+        ), 
+        onPanStart: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            Offset point = renderBox.globalToLocal(details.globalPosition);
+            // store point relative to size
+            point = Offset(point.dx / _size.width, point.dy / _size.height);
+            _entry.drawPoints.add(point);
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            RenderBox renderBox = context.findRenderObject();
+            Offset point = renderBox.globalToLocal(details.globalPosition);
+            // store point relative to size
+            point = Offset(point.dx / _size.width, point.dy / _size.height);
+            _entry.drawPoints.add(point);
+          });
+        },
+        onPanEnd: (details) {
+          setState(() {
+            _entry.drawPoints.add(null);
+          });
+          Provider.of<EntryModel>(context, listen: false).indicateChange();
+        }
+      )
     );
   }
 }

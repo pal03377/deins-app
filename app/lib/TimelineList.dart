@@ -84,6 +84,7 @@ class _TimelineListState extends State<TimelineList> {
           }
         }
         return ListView.builder(
+          reverse: true,
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: allEntries.length, 
