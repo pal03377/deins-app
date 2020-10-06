@@ -82,17 +82,50 @@ class DrawPage extends StatelessWidget {
                       )
                     ),
                     TypeDraw(entry: _entry, size: drawSize, disabled: false),
-                    IconButton(
-                      icon: Icon(_entry.drawPoints.length > 0 ? Icons.replay : Icons.delete_outline, size: 32), 
-                      onPressed: () {
-                        if (_entry.drawPoints.length > 0) {
-                          _entry.clearDrawings();
-                          Provider.of<EntryModel>(context, listen: false).indicateChange();
-                        } else {
-                          Provider.of<EntryModel>(context, listen: false).remove(_entry);
-                          Navigator.pop(context);
-                        }
-                      }
+                    Padding(
+                      padding: const EdgeInsets.only(left: 32, right: 32),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 115, 
+                            child: Text(
+                              _entry.creationDate.year.toString() + "-" + 
+                              _entry.creationDate.month.toString() + "-" + 
+                              _entry.creationDate.day.toString(),
+                              style: TextStyle(fontSize: 28),
+                              textAlign: TextAlign.right
+                            )
+                          ),
+                          MaterialButton(
+                            child: Text("done", style: TextStyle(color: Colors.white, fontSize: 25)),
+                            onPressed: () { Navigator.pop(context); },
+                            color: Colors.black,
+                            shape: CircleBorder(),
+                            minWidth: 80,
+                            height: 80,
+                            elevation: 4.0,
+                          ),
+                          SizedBox(
+                            width: 115,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                icon: Icon(_entry.drawPoints.length > 0 ? Icons.replay : Icons.delete_outline, size: 32), 
+                                onPressed: () {
+                                  if (_entry.drawPoints.length > 0) {
+                                    _entry.clearDrawings();
+                                    Provider.of<EntryModel>(context, listen: false).indicateChange();
+                                  } else {
+                                    Provider.of<EntryModel>(context, listen: false).remove(_entry);
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              )
+                            )
+                          )
+                        ],
+                      ),
                     )
                   ]
                 )
