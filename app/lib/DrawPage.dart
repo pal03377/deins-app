@@ -47,52 +47,68 @@ class _DrawPageState extends State<DrawPage> {
     }
     final screenWidth = MediaQuery.of(context).size.width;
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: 24,
-            right: 24,
-            child: Opacity(
-              opacity: .75, 
-              child: IconButton(
-                icon: Icon(Icons.close, size: 32), 
-                onPressed: () { Navigator.pop(context); }
-              )
-            )
-          ), 
-          Padding(
-            padding: const EdgeInsets.only(top: 96, bottom: 96), 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text.rich(
-                    TextSpan(
-                      text: "Draw how you feel \nabout your ", 
-                      style: TextStyle(fontSize: 36, height: 1.2),
-                        children: [
-                          TextSpan(
-                            text: _entry.type.name, 
-                            style: TextStyle(
-                              decoration: TextDecoration.underline
-                            ),
-                            recognizer: new TapGestureRecognizer()..onTap = () { setState(() { _openEntryTypeSelectDialog(); }); }
-                          ), 
-                          TextSpan(text: ".")
-                        ]
-                    ),
-                    textAlign: TextAlign.center
+    return Consumer<EntryModel>(
+      builder: (context, entryModel, child) {
+        return Scaffold(
+          body: Stack(
+            children: [
+              Positioned(
+                top: 24,
+                right: 24,
+                child: Opacity(
+                  opacity: .75, 
+                  child: IconButton(
+                    icon: Icon(Icons.close, size: 32), 
+                    onPressed: () { Navigator.pop(context); }
                   )
-                ),
-                TypeDraw(entry: _entry, size: drawSize, disabled: false)
-              ]
-            )
+                )
+              ), 
+              Padding(
+                padding: const EdgeInsets.only(top: 96, bottom: 96), 
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Draw how you feel \nabout your ", 
+                          style: TextStyle(fontSize: 36, height: 1.2),
+                            children: [
+                              TextSpan(
+                                text: _entry.type.name, 
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline
+                                ),
+                                recognizer: new TapGestureRecognizer()..onTap = () { setState(() { _openEntryTypeSelectDialog(); }); }
+                              ), 
+                              TextSpan(text: ".")
+                            ]
+                        ),
+                        textAlign: TextAlign.center
+                      )
+                    ),
+                    TypeDraw(entry: _entry, size: drawSize, disabled: false),
+                    IconButton(
+                      icon: Icon(_entry.drawPoints.length > 0 ? Icons.replay : Icons.delete_outline, size: 32), 
+                      onPressed: () {
+                        if (_entry.drawPoints.length > 0) {
+                          _entry.clearDrawings();
+                          Provider.of<EntryModel>(context, listen: false).indicateChange();
+                        } else {
+                          Provider.of<EntryModel>(context, listen: false).remove(_entry);
+                          Navigator.pop(context);
+                        }
+                      }
+                    )
+                  ]
+                )
+              ),
+            ],
           )
-        ],
-      )
+        );
+      }
     );
   }
 }

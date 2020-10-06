@@ -14,7 +14,7 @@ class TimelineList extends StatefulWidget {
 
 class _TimelineListState extends State<TimelineList> {
   _TimelineListState();
-  final _entries = <Entry>[];
+  List<Entry> _entries = [];
 
   _openEntry(BuildContext context, Entry entry) {
     Navigator.of(context).push(
@@ -47,15 +47,11 @@ class _TimelineListState extends State<TimelineList> {
                 textAlign: TextAlign.right
               )
             )
-          ), 
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8), 
-            child: SizedBox(
-              child: TypeDraw(entry: entry, size: Size(75, 75), disabled: true),
-              width: 75, 
-              height: 75
-            )
-          ), 
+            child: TypeDraw(entry: Entry.from(entry), size: Size(75, 75), disabled: true)
+          ),
           Opacity(
             opacity: .75,
             child: SizedBox(
@@ -83,6 +79,7 @@ class _TimelineListState extends State<TimelineList> {
             break;
           }
         }
+        _entries = [];
         return ListView.builder(
           reverse: true,
           physics: NeverScrollableScrollPhysics(),
