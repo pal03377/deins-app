@@ -8,19 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class DrawPage extends StatefulWidget {
+class DrawPage extends StatelessWidget {
   final Entry _entry;
   DrawPage(this._entry);
 
-  @override
-  _DrawPageState createState() => _DrawPageState(_entry);
-}
-
-class _DrawPageState extends State<DrawPage> {
-  Entry _entry;
-  _DrawPageState(this._entry);
-
-  Future<void> _openEntryTypeSelectDialog() async {
+  Future<void> _openEntryTypeSelectDialog(BuildContext context) async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       EntryType newType = EntryType(EntryType.none);
       while (newType.empty) {
@@ -31,10 +23,8 @@ class _DrawPageState extends State<DrawPage> {
         if (newType == null) newType = _entry.type;
       }
       if (newType != _entry.type) {
-        setState(() {
-          _entry.type = newType;
-          _entry.clearDrawings();
-        });
+        _entry.type = newType;
+        _entry.clearDrawings();
       }
       Provider.of<EntryModel>(context, listen: false).indicateChange();
     });
@@ -43,7 +33,7 @@ class _DrawPageState extends State<DrawPage> {
   @override
   Widget build(BuildContext context) {
     if (_entry.type.empty) {
-       _openEntryTypeSelectDialog();
+       _openEntryTypeSelectDialog(context);
     }
     final screenWidth = MediaQuery.of(context).size.width;
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
@@ -81,7 +71,7 @@ class _DrawPageState extends State<DrawPage> {
                                 style: TextStyle(
                                   decoration: TextDecoration.underline
                                 ),
-                                recognizer: new TapGestureRecognizer()..onTap = () { setState(() { _openEntryTypeSelectDialog(); }); }
+                                recognizer: new TapGestureRecognizer()..onTap = () { _openEntryTypeSelectDialog(context); }
                               ), 
                               TextSpan(text: ".")
                             ]
