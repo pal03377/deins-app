@@ -16,6 +16,16 @@ class _TimelineListState extends State<TimelineList> {
   _TimelineListState();
   final _entries = <Entry>[];
 
+  _openEntry(BuildContext context, Entry entry) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return DrawPage(entry);
+        }
+      )
+    );
+  }
+
   Widget _buildRow(entry) {
     final textStyle = TextStyle(
       fontSize: 28
@@ -56,14 +66,7 @@ class _TimelineListState extends State<TimelineList> {
         ]
       ),
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            // NEW lines from here...
-            builder: (BuildContext context) {
-              return DrawPage(entry);
-            }
-          ),
-        );
+        _openEntry(context, entry);
       }
     );
   }
@@ -72,6 +75,14 @@ class _TimelineListState extends State<TimelineList> {
     return Consumer<EntryModel>(
       builder: (context, entryModel, child) {
         List<Entry> allEntries = entryModel.entries;
+        for (Entry entry in allEntries) {
+          if (entry.type.empty) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              _openEntry(context, entry);
+            });
+            break;
+          }
+        }
         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
