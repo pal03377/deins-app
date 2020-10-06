@@ -1,3 +1,4 @@
+import 'package:deins/ChartPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
@@ -29,33 +30,48 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  _openCharts(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return ChartPage();
+        }
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Deins',
-        theme: ThemeData(
-          primaryColor: Colors.black, 
-          textTheme: GoogleFonts.crimsonTextTextTheme( Theme.of(context).textTheme )
+      theme: ThemeData(
+        primaryColor: Colors.black, 
+        textTheme: GoogleFonts.crimsonTextTextTheme( Theme.of(context).textTheme )
+      ),
+      home: Builder(
+        builder: (context) => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(70.0), 
+            child: AppBar(
+              title: Text("Deins.", style: TextStyle(fontFamily: GoogleFonts.getFont("Crimson Text").fontFamily, fontSize: 36)),
+              actions: [
+                IconButton(icon: Icon(Icons.stacked_line_chart_rounded), onPressed: () => _openCharts(context))
+              ],
+              centerTitle: true
+            )
+          ), 
+          body: Center(
+            child: Timeline(),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add), 
+            onPressed: () {
+              Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
+            },
+            backgroundColor: Colors.black
+          ),
+          backgroundColor: Colors.white
         ),
-      home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0), 
-          child: AppBar(
-            title: Text("Deins.", style: TextStyle(fontFamily: GoogleFonts.getFont("Crimson Text").fontFamily, fontSize: 36)),
-            centerTitle: true
-          )
-        ), 
-        body: Center(
-          child: Timeline(),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add), 
-          onPressed: () {
-            Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
-          },
-          backgroundColor: Colors.black
-        ),
-        backgroundColor: Colors.white
       ),
     );
   }

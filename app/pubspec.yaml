@@ -36,6 +36,8 @@ dependencies:
   shared_preferences: ^0.5.12
   # image tooling to read pixels
   image: ^2.1.18
+  # chart of the days
+  charts_flutter: ^0.9.0
 
 dev_dependencies:
   flutter_test:

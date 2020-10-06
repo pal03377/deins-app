@@ -80,7 +80,7 @@ class Entry {
         if (pixel > 0) coloredPixels ++;
       }
     }
-
+    if (totalPixels == 0) return 0.0;
     return min(1.0, coloredPixels / totalPixels);
   }
 

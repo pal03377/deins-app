@@ -110,6 +110,10 @@ class EntryType {
     }
     return res;
   }
+
+  operator ==(covariant EntryType other) {
+    return this.name == other.name;
+  }
 }
 
 
