@@ -56,6 +56,11 @@ class App extends StatelessWidget {
         body: Center(
           child: Timeline(),
         ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add), 
+          onPressed: () {},
+          backgroundColor: Colors.black
+        ),
         backgroundColor: Colors.white
       ),
     );

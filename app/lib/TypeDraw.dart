@@ -39,7 +39,7 @@ class _TypeDrawState extends State<TypeDraw> {
           clipper: PathClipper(path),
           child: CustomPaint(
             size: _size,
-            painter: DrawPainter(_entry, path, _disabled)
+            painter: DrawPainter(_entry, path)
           )
         ), 
         onPanStart: (details) {
@@ -76,7 +76,8 @@ class DrawPainter extends CustomPainter {
   Entry entry;
   List<Offset> offsetPoints = List();
   Path _path;
-  bool _disabled;
+
+  DrawPainter(this.entry, this._path);
 
   @override
   void paint(Canvas canvas, Size size) {  
@@ -118,14 +119,7 @@ class DrawPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.08 * size.width;
-    Path borderPath = Path.from(_path);
-    // scale down border path so that not half of the line is clipped away
-    final Rect pathBounds = borderPath.getBounds();
-    final Matrix4 matrix4 = Matrix4.identity();
-    matrix4.scale((pathBounds.width - borderPaint.strokeWidth) / pathBounds.width, (pathBounds.width - borderPaint.strokeWidth) / pathBounds.height);
-    matrix4.translate(borderPaint.strokeWidth / 2, borderPaint.strokeWidth / 2);
-    borderPath = borderPath.transform(matrix4.storage);
-    canvas.drawPath(borderPath, borderPaint);
+    canvas.drawPath(_path, borderPaint);
   }
   
   @override
