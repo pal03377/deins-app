@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:deins/Entry.dart';
@@ -29,17 +30,21 @@ class _TypeDrawState extends State<TypeDraw> {
     final Rect pathBounds = path.getBounds();
 
     final Matrix4 matrix4 = Matrix4.identity();
-    matrix4.scale(_size.width / pathBounds.width, _size.height / pathBounds.height);
+    // shapes are drawn based on a 100x100 area
+    matrix4.scale(min(_size.width / pathBounds.width, _size.height / 100));
     path = path.transform(matrix4.storage);
 
     return IgnorePointer(
       ignoring: false, /*_disabled*/
       child: GestureDetector(
-        child: ClipPath(
-          clipper: PathClipper(path),
-          child: CustomPaint(
-            size: _size,
-            painter: DrawPainter(_entry, path)
+        child: Padding(
+          padding: EdgeInsets.only(top: (_size.height - path.getBounds().height) / 2),
+          child: ClipPath(
+            clipper: PathClipper(path),
+            child: CustomPaint(
+              size: _size,
+              painter: DrawPainter(_entry, path)
+            )
           )
         ), 
         onPanStart: (details) {
@@ -83,7 +88,8 @@ class DrawPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {  
     Paint backgroundPaint = new Paint()
       ..color = Colors.white;
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
+    // draw background color such that it pretty much exactly behind the shape
+    canvas.drawPath(_path, backgroundPaint);
 
     Paint paint = new Paint()
       ..color = entry.type.color

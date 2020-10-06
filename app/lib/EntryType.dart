@@ -32,16 +32,25 @@ class EntryType {
 
   Path get shape {
     Path res = Path();
-    Size size = Size(100, 100);
     switch (_me) {
       case EntryType.career:
         // draw triangle
-        res.moveTo(0, 173);
-        res.lineTo(200, 173);
-        res.lineTo(100, 0);
-        res.close();
+        Size size = Size(100, 87);
+        res.lineTo(size.width * 0.54, size.height * 0.05);
+        res.cubicTo(size.width * 0.54, size.height * 0.05, size.width * 0.55, size.height * 0.05, size.width * 0.55, size.height * 0.05);
+        res.cubicTo(size.width * 0.55, size.height * 0.05, size.width * 1.04, size.height * 1.04, size.width * 1.04, size.height * 1.04);
+        res.cubicTo(size.width * 1.04, size.height * 1.04, size.width * 1.04, size.height * 1.04, size.width * 1.04, size.height * 1.04);
+        res.cubicTo(size.width * 1.04, size.height * 1.04, size.width * 1.04, size.height * 1.05, size.width * 1.04, size.height * 1.05);
+        res.cubicTo(size.width * 1.04, size.height * 1.05, size.width * 0.05, size.height * 1.05, size.width * 0.05, size.height * 1.05);
+        res.cubicTo(size.width * 0.05, size.height * 1.05, size.width * 0.04, size.height * 1.05, size.width * 0.04, size.height * 1.05);
+        res.cubicTo(size.width * 0.04, size.height * 1.04, size.width * 0.04, size.height * 1.04, size.width * 0.04, size.height * 1.04);
+        res.cubicTo(size.width * 0.04, size.height * 1.04, size.width * 0.54, size.height * 0.05, size.width * 0.54, size.height * 0.05);
+        res.cubicTo(size.width * 0.54, size.height * 0.05, size.width * 0.54, size.height * 0.05, size.width * 0.54, size.height * 0.05);
+        res.cubicTo(size.width * 0.54, size.height * 0.05, size.width * 0.54, size.height * 0.05, size.width * 0.54, size.height * 0.05);
         break;
       case EntryType.health:
+        // draw pentagon
+        Size size = Size(92, 92);
         res.lineTo(size.width * 0.51, size.height * 0.1);
         res.cubicTo(size.width * 0.51, size.height * 0.1, size.width * 0.54, size.height * 0.08, size.width * 0.55, size.height * 0.08);
         res.cubicTo(size.width * 0.56, size.height * 0.08, size.width * 0.59, size.height * 0.1, size.width * 0.59, size.height * 0.1);
@@ -63,14 +72,14 @@ class EntryType {
       case EntryType.self:
         res.addOval(Rect.fromCircle(
           center: Offset(50, 50),
-          radius: 50.0,
+          radius: 45.0,
         ));
         break;
       case EntryType.friends:
         res.addRRect(RRect.fromRectAndRadius(
           Rect.fromCircle(
             center: Offset(50, 50),
-            radius: 50.0,
+            radius: 40.0,
           ), 
           Radius.circular(8)
         ));

@@ -10,18 +10,18 @@ import 'package:provider/provider.dart';
 import 'Timeline.dart';
 
 final List<Entry> _entries = [
-  Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.self), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.self), 0.5), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health), 0.5), 
+  Entry.noDrawing(new DateTime.utc(2020, 10, 3), EntryType(EntryType.career)), 
+  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.health)), 
+  Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.self)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.self)), 
+  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health)), 
 ];
 
 
@@ -58,7 +58,9 @@ class App extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add), 
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.career)));
+          },
           backgroundColor: Colors.black
         ),
         backgroundColor: Colors.white
