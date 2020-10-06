@@ -1,5 +1,7 @@
+import 'package:deins/EntryModel.dart';
 import 'package:deins/TimelineList.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class Timeline extends StatelessWidget {
@@ -18,13 +20,16 @@ class Timeline extends StatelessWidget {
             Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 12), 
+                  padding: const EdgeInsets.only(top: 12, bottom: 64), 
                   child: Center(
                     child: Container(
-                      child: SizedBox(
-                        width: 6, 
-                        height: 10000
-                      ),
+                      child: Consumer<EntryModel>(
+                        builder: (context, entryModel, child) {
+                          return SizedBox(
+                            width: 6,
+                            height: entryModel.entries.length * 103.0 + 32
+                          );
+                      }),
                       decoration: BoxDecoration(
                         color: Colors.black, 
                         borderRadius: BorderRadius.circular(3)
