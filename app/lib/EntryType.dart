@@ -1,3 +1,4 @@
+import 'package:deins/colors.dart';
 import 'package:flutter/material.dart';
 
 
@@ -42,11 +43,11 @@ class EntryType {
 
   Color get color {
     switch (_me) {
-      case EntryType.none: return Colors.white;
-      case EntryType.career: return Colors.yellow;
-      case EntryType.health: return Colors.green;
-      case EntryType.self: return Colors.red;
-      case EntryType.friends: return Colors.blue;
+      case EntryType.none: return whiteBg;
+      case EntryType.career: return etYellow;
+      case EntryType.health: return etTurquoise;
+      case EntryType.self: return etRed;
+      case EntryType.friends: return etBlue;
       default: return null;
     }
   }

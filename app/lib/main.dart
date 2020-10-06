@@ -2,6 +2,7 @@ import 'package:deins/ChartPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
+import 'package:deins/colors.dart';
 import 'package:deins/storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Deins',
       theme: ThemeData(
-        primaryColor: Colors.black, 
+        primaryColor: primary,
+        backgroundColor: whiteBg,
         textTheme: GoogleFonts.crimsonTextTextTheme( Theme.of(context).textTheme )
       ),
       home: Builder(
@@ -68,9 +70,9 @@ class App extends StatelessWidget {
             onPressed: () {
               Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
             },
-            backgroundColor: Colors.black
+            backgroundColor: primary
           ),
-          backgroundColor: Colors.white
+          backgroundColor: whiteBg
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
 import 'package:deins/EntryTypeSelectDialog.dart';
 import 'package:deins/TypeDraw.dart';
+import 'package:deins/colors.dart';
 import 'package:deins/entryDatePicker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class DrawPage extends StatelessWidget {
     return Consumer<EntryModel>(
       builder: (context, entryModel, child) {
         return Scaffold(
+          backgroundColor: whiteBg,
           body: Stack(
             children: [
               Positioned(
@@ -108,13 +110,13 @@ class DrawPage extends StatelessWidget {
                               onPressed: () {
                                 showEntryDatePicker(context, _entry);
                               },
-                              style: TextButton.styleFrom(primary: Colors.black)
+                              style: TextButton.styleFrom(primary: primary)
                             )
                           ),
                           MaterialButton(
                             child: Text("done", style: TextStyle(color: Colors.white, fontSize: 25)),
                             onPressed: () { Navigator.pop(context); },
-                            color: Colors.black,
+                            color: primary,
                             shape: CircleBorder(),
                             minWidth: 80,
                             height: 80,

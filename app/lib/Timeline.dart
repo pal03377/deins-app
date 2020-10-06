@@ -1,5 +1,6 @@
 import 'package:deins/EntryModel.dart';
 import 'package:deins/TimelineList.dart';
+import 'package:deins/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,7 @@ class Timeline extends StatelessWidget {
                           );
                       }),
                       decoration: BoxDecoration(
-                        color: Colors.black, 
+                        color: primary,
                         borderRadius: BorderRadius.circular(3)
                       )
                     )

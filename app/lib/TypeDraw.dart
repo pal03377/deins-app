@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
+import 'package:deins/colors.dart';
 import 'package:deins/entryDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class TypeDraw extends StatelessWidget {
   final Size size;
   final bool disabled;
   final Color fillColor;
-  TypeDraw({ this.entry, this.size, this.disabled, this.fillColor=Colors.white });
+  TypeDraw({ this.entry, this.size, this.disabled, this.fillColor=whiteBg });
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class DrawPainter extends CustomPainter {
     drawEntryOnCanvas(canvas, size, entry);
 
     Paint borderPaint = new Paint()
-      ..color = Colors.black
+      ..color = primary
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.08 * size.width;
