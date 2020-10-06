@@ -1,4 +1,6 @@
+import 'package:deins/Entry.dart';
 import 'package:deins/EntryType.dart';
+import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
 
 class EntryTypeSelectDialog extends StatelessWidget {
@@ -8,7 +10,15 @@ class EntryTypeSelectDialog extends StatelessWidget {
     for (EntryType et in allEntryTypes) {
       buttons.add(SimpleDialogOption(
         onPressed: () { Navigator.pop(context, et); },
-        child: Text(et.name)
+        child: Row(
+          children: [
+            TypeDraw(entry: Entry.noDrawing(DateTime.now(), et), size: Size(24, 24), disabled: true, fillColor: et.color), 
+            Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: Text(et.name)
+            )
+          ]
+        )
       ));
     }
 

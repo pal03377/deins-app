@@ -8,20 +8,22 @@ import 'package:provider/provider.dart';
 
 
 class TypeDraw extends StatefulWidget {
-  final Entry _entry;
-  final Size _size;
-  final bool _disabled;
-  TypeDraw(this._entry, this._size, this._disabled);
+  final Entry entry;
+  final Size size;
+  final bool disabled;
+  final Color fillColor;
+  TypeDraw({ this.entry, this.size, this.disabled, this.fillColor=Colors.white });
 
   @override
-  _TypeDrawState createState() => _TypeDrawState(_entry, _size, _disabled);
+  _TypeDrawState createState() => _TypeDrawState(entry, size, disabled, fillColor);
 }
 
 class _TypeDrawState extends State<TypeDraw> {
   Entry _entry;
   Size _size;
   bool _disabled = false;
-  _TypeDrawState(this._entry, this._size, this._disabled);
+  Color _fillColor;
+  _TypeDrawState(this._entry, this._size, this._disabled, this._fillColor);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class _TypeDrawState extends State<TypeDraw> {
             clipper: PathClipper(path),
             child: CustomPaint(
               size: _size,
-              painter: DrawPainter(_entry, path)
+              painter: DrawPainter(_entry, path, _fillColor)
             )
           ), 
           onPanStart: (details) {
@@ -83,13 +85,14 @@ class DrawPainter extends CustomPainter {
   Entry entry;
   List<Offset> offsetPoints = List();
   Path _path;
+  Color _fillColor;
 
-  DrawPainter(this.entry, this._path);
+  DrawPainter(this.entry, this._path, this._fillColor);
 
   @override
-  void paint(Canvas canvas, Size size) {  
+  void paint(Canvas canvas, Size size) {
     Paint backgroundPaint = new Paint()
-      ..color = Colors.white;
+      ..color = _fillColor;
     // draw background color such that it pretty much exactly behind the shape
     canvas.drawPath(_path, backgroundPaint);
 

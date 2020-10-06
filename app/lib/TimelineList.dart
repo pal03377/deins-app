@@ -41,7 +41,7 @@ class _TimelineListState extends State<TimelineList> {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8), 
             child: SizedBox(
-              child: TypeDraw(entry, Size(75, 75), true),
+              child: TypeDraw(entry: entry, size: Size(75, 75), disabled: true),
               width: 75, 
               height: 75
             )

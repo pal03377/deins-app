@@ -87,7 +87,7 @@ class _DrawPageState extends State<DrawPage> {
                     textAlign: TextAlign.center
                   )
                 ),
-                TypeDraw(_entry, drawSize, false)
+                TypeDraw(entry: _entry, size: drawSize, disabled: false)
               ]
             )
           )
