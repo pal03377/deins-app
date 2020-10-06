@@ -78,14 +78,8 @@ class DrawPainter extends CustomPainter {
   Path _path;
   bool _disabled;
 
-  DrawPainter(this.entry, this._path, this._disabled) {
-    if (_disabled) print("painter init");
-  }
-
   @override
-  void paint(Canvas canvas, Size size) {
-    if (_disabled) print("paint");
-  
+  void paint(Canvas canvas, Size size) {  
     Paint backgroundPaint = new Paint()
       ..color = Colors.white;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
