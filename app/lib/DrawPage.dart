@@ -1,6 +1,11 @@
 import 'package:deins/Entry.dart';
+import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryType.dart';
+import 'package:deins/EntryTypeSelectDialog.dart';
 import 'package:deins/TypeDraw.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class DrawPage extends StatefulWidget {
@@ -15,8 +20,31 @@ class _DrawPageState extends State<DrawPage> {
   Entry _entry;
   _DrawPageState(this._entry);
 
+  Future<void> _openEntryTypeSelectDialog() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      EntryType newType = EntryType(EntryType.none);
+      while (newType.empty) {
+        newType = await showDialog<EntryType>(
+          context: context,
+          builder: (BuildContext context) { return EntryTypeSelectDialog(); }
+        );
+        if (newType == null) newType = _entry.type;
+      }
+      if (newType != _entry.type) {
+        setState(() {
+          _entry.type = newType;
+          _entry.clearDrawings();
+        });
+      }
+      Provider.of<EntryModel>(context, listen: false).indicateChange();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_entry.type.empty) {
+       _openEntryTypeSelectDialog();
+    }
     final screenWidth = MediaQuery.of(context).size.width;
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
     return Scaffold(
@@ -39,7 +67,8 @@ class _DrawPageState extends State<DrawPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
+                Align(
+                  alignment: Alignment.center,
                   child: Text.rich(
                     TextSpan(
                       text: "Draw how you feel \nabout your ", 
@@ -49,11 +78,13 @@ class _DrawPageState extends State<DrawPage> {
                             text: _entry.type.name, 
                             style: TextStyle(
                               decoration: TextDecoration.underline
-                            )
+                            ),
+                            recognizer: new TapGestureRecognizer()..onTap = () { setState(() { _openEntryTypeSelectDialog(); }); }
                           ), 
                           TextSpan(text: ".")
                         ]
-                    )
+                    ),
+                    textAlign: TextAlign.center
                   )
                 ),
                 TypeDraw(_entry, drawSize, false)

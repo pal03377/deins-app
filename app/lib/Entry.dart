@@ -13,4 +13,8 @@ class Entry {
     this.drawPoints = List();
   }
 
+  clearDrawings() {
+    drawPoints = [];
+  }
+
 }

@@ -15,13 +15,6 @@ final List<Entry> _entries = [
   Entry.noDrawing(new DateTime.utc(2020, 10, 2), EntryType(EntryType.self)), 
   Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.friends)), 
   Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 29), EntryType(EntryType.health)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.self)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 26), EntryType(EntryType.health)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 25), EntryType(EntryType.career)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 24), EntryType(EntryType.career)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.self)), 
-  Entry.noDrawing(new DateTime.utc(2020, 9, 23), EntryType(EntryType.health)), 
 ];
 
 
@@ -59,7 +52,7 @@ class App extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add), 
           onPressed: () {
-            Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.career)));
+            Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
           },
           backgroundColor: Colors.black
         ),

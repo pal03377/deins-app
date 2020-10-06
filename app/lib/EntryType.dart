@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class EntryType {
+  static const none = 0;
   static const career = 1;
   static const health = 2;
   static const self = 3;
@@ -10,8 +11,13 @@ class EntryType {
   var _me;
   EntryType(this._me);
 
+  bool get empty {
+    return _me == EntryType.none;
+  }
+
   String get name {
     switch (_me) {
+      case EntryType.none: return "?";
       case EntryType.career: return "career";
       case EntryType.health: return "health";
       case EntryType.self: return "self";
@@ -22,6 +28,7 @@ class EntryType {
 
   Color get color {
     switch (_me) {
+      case EntryType.none: return Colors.white;
       case EntryType.career: return Colors.yellow;
       case EntryType.health: return Colors.green;
       case EntryType.self: return Colors.red;
@@ -33,6 +40,8 @@ class EntryType {
   Path get shape {
     Path res = Path();
     switch (_me) {
+      case EntryType.none:
+        break;
       case EntryType.career:
         // draw triangle
         Size size = Size(100, 87);
@@ -88,3 +97,11 @@ class EntryType {
     return res;
   }
 }
+
+
+List<EntryType> allEntryTypes = [
+  EntryType(EntryType.career),
+  EntryType(EntryType.health),
+  EntryType(EntryType.self),
+  EntryType(EntryType.friends)
+];

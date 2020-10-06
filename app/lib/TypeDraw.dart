@@ -36,41 +36,43 @@ class _TypeDrawState extends State<TypeDraw> {
 
     return IgnorePointer(
       ignoring: false, /*_disabled*/
-      child: GestureDetector(
-        child: Padding(
-          padding: EdgeInsets.only(top: (_size.height - path.getBounds().height) / 2),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: max(0, (_size.height - path.getBounds().height) / 2)
+        ),
+        child: GestureDetector(
           child: ClipPath(
             clipper: PathClipper(path),
             child: CustomPaint(
               size: _size,
               painter: DrawPainter(_entry, path)
             )
-          )
-        ), 
-        onPanStart: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            Offset point = renderBox.globalToLocal(details.globalPosition);
-            // store point relative to size
-            point = Offset(point.dx / _size.width, point.dy / _size.height);
-            _entry.drawPoints.add(point);
-          });
-        },
-        onPanUpdate: (details) {
-          setState(() {
-            RenderBox renderBox = context.findRenderObject();
-            Offset point = renderBox.globalToLocal(details.globalPosition);
-            // store point relative to size
-            point = Offset(point.dx / _size.width, point.dy / _size.height);
-            _entry.drawPoints.add(point);
-          });
-        },
-        onPanEnd: (details) {
-          setState(() {
-            _entry.drawPoints.add(null);
-          });
-          Provider.of<EntryModel>(context, listen: false).indicateChange();
-        }
+          ), 
+          onPanStart: (details) {
+            setState(() {
+              RenderBox renderBox = context.findRenderObject();
+              Offset point = renderBox.globalToLocal(details.globalPosition);
+              // store point relative to size
+              point = Offset(point.dx / _size.width, point.dy / _size.height);
+              _entry.drawPoints.add(point);
+            });
+          },
+          onPanUpdate: (details) {
+            setState(() {
+              RenderBox renderBox = context.findRenderObject();
+              Offset point = renderBox.globalToLocal(details.globalPosition);
+              // store point relative to size
+              point = Offset(point.dx / _size.width, point.dy / _size.height);
+              _entry.drawPoints.add(point);
+            });
+          },
+          onPanEnd: (details) {
+            setState(() {
+              _entry.drawPoints.add(null);
+            });
+            Provider.of<EntryModel>(context, listen: false).indicateChange();
+          }
+        ),
       ),
     );
   }
@@ -136,16 +138,16 @@ class DrawPainter extends CustomPainter {
 
 
 class PathClipper extends CustomClipper<Path> {
-  Path _path;
-  PathClipper(this._path);
+  Path path;
+  PathClipper(this.path);
 
   @override
   Path getClip(Size size) {
-    return _path;
+    return path;
   }
   
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
+  bool shouldReclip(covariant PathClipper oldClipper) {
+    return path != oldClipper.path;
   }
 }
