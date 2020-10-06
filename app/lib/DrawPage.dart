@@ -99,8 +99,8 @@ class DrawPage extends StatelessWidget {
                             child: TextButton(
                               child: Text(
                                 _entry.creationDate.year.toString() + "-" + 
-                                _entry.creationDate.month.toString() + "-" + 
-                                _entry.creationDate.day.toString(),
+                                _entry.creationDate.month.toString().padLeft(2, "0") + "-" + 
+                                _entry.creationDate.day.toString().padLeft(2, "0"),
                                 style: textStyle,
                                 textAlign: TextAlign.right
                               ),
