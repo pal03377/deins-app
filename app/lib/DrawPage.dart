@@ -3,6 +3,7 @@ import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
 import 'package:deins/EntryTypeSelectDialog.dart';
 import 'package:deins/TypeDraw.dart';
+import 'package:deins/entryDatePicker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,13 +89,19 @@ class DrawPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 115, 
-                            child: Text(
-                              _entry.creationDate.year.toString() + "-" + 
-                              _entry.creationDate.month.toString() + "-" + 
-                              _entry.creationDate.day.toString(),
-                              style: TextStyle(fontSize: 28),
-                              textAlign: TextAlign.right
+                            width: 145, 
+                            child: TextButton(
+                              child: Text(
+                                _entry.creationDate.year.toString() + "-" + 
+                                _entry.creationDate.month.toString() + "-" + 
+                                _entry.creationDate.day.toString(),
+                                style: TextStyle(fontSize: 28),
+                                textAlign: TextAlign.right
+                              ),
+                              onPressed: () {
+                                showEntryDatePicker(context, _entry);
+                              },
+                              style: TextButton.styleFrom(primary: Colors.black)
                             )
                           ),
                           MaterialButton(
@@ -107,7 +114,7 @@ class DrawPage extends StatelessWidget {
                             elevation: 4.0,
                           ),
                           SizedBox(
-                            width: 115,
+                            width: 145,
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: IconButton(

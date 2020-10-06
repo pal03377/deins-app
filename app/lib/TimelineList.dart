@@ -2,6 +2,7 @@ import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/TypeDraw.dart';
+import 'package:deins/entryDatePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,15 +39,21 @@ class _TimelineListState extends State<TimelineList> {
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 115, 
-              child: Text(
-                entry.creationDate.year.toString() + "-" + 
-                entry.creationDate.month.toString() + "-" + 
-                entry.creationDate.day.toString(),
-                style: textStyle,
-                textAlign: TextAlign.right
+              width: 145, 
+              child: TextButton(
+                child: Text(
+                  entry.creationDate.year.toString() + "-" + 
+                  entry.creationDate.month.toString() + "-" + 
+                  entry.creationDate.day.toString(),
+                  style: TextStyle(fontSize: 28),
+                  textAlign: TextAlign.right
+                ),
+                onPressed: () {
+                  showEntryDatePicker(context, entry);
+                },
+                style: TextButton.styleFrom(primary: Colors.black)
               )
-            )
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
@@ -55,7 +62,7 @@ class _TimelineListState extends State<TimelineList> {
           Opacity(
             opacity: .75,
             child: SizedBox(
-              width: 115, 
+              width: 145, 
               child: Text(entry.type.name, style: textStyle)
             )
           )
