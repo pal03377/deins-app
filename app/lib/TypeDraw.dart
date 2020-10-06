@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
-import 'package:deins/TouchPoint.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,17 +49,19 @@ class _TypeDrawState extends State<TypeDraw> {
             onPanStart: (details) {
               setState(() {
                 RenderBox renderBox = context.findRenderObject();
-                _entry.drawPoints.add(TouchPoint(
-                  points: renderBox.globalToLocal(details.globalPosition)
-                ));
+                Offset point = renderBox.globalToLocal(details.globalPosition);
+                // store point relative to size
+                point = Offset(point.dx / _size.width, point.dy / _size.height);
+                _entry.drawPoints.add(point);
               });
             },
             onPanUpdate: (details) {
               setState(() {
                 RenderBox renderBox = context.findRenderObject();
-                _entry.drawPoints.add(TouchPoint(
-                  points: renderBox.globalToLocal(details.globalPosition)
-                ));
+                Offset point = renderBox.globalToLocal(details.globalPosition);
+                // store point relative to size
+                point = Offset(point.dx / _size.width, point.dy / _size.height);
+                _entry.drawPoints.add(point);
               });
             },
             onPanEnd: (details) {
@@ -101,15 +102,24 @@ class DrawPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.08 * size.width;
 
+    List<Offset> pointsScaledUp = [];
+    // points are stores relative to size, so scale them up again
+    for (Offset p in entry.drawPoints) {
+      if (p == null) {
+        pointsScaledUp.add(null);
+        continue;
+      }
+      pointsScaledUp.add(Offset(p.dx * size.width, p.dy * size.height));
+    }
     // https://ptyagicodecamp.github.io/building-cross-platform-finger-painting-app-in-flutter.html
-    for (int i = 0; i < entry.drawPoints.length - 1; i++) {
-      if (entry.drawPoints[i] != null && entry.drawPoints[i + 1] != null) {
+    for (int i = 0; i < pointsScaledUp.length - 1; i++) {
+      if (pointsScaledUp[i] != null && pointsScaledUp[i + 1] != null) {
         // Drawing line when two consecutive points are available
-        canvas.drawLine(entry.drawPoints[i].points, entry.drawPoints[i + 1].points, paint);
-      } else if (entry.drawPoints[i] != null && entry.drawPoints[i + 1] == null) {
+        canvas.drawLine(pointsScaledUp[i], pointsScaledUp[i + 1], paint);
+      } else if (pointsScaledUp[i] != null && pointsScaledUp[i + 1] == null) {
         offsetPoints.clear();
-        offsetPoints.add(entry.drawPoints[i].points);
-        offsetPoints.add(Offset(entry.drawPoints[i].points.dx + 0.1, entry.drawPoints[i].points.dy + 0.1));
+        offsetPoints.add(pointsScaledUp[i]);
+        offsetPoints.add(Offset(pointsScaledUp[i].dx + 0.1, pointsScaledUp[i].dy + 0.1));
         // Draw points when two points are not next to each other
         canvas.drawPoints(PointMode.points, offsetPoints, paint);
       }

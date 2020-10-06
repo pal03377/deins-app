@@ -1,5 +1,4 @@
 import 'package:deins/Entry.dart';
-import 'package:deins/EntryType.dart';
 import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
 
