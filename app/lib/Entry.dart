@@ -1,6 +1,11 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:deins/EntryType.dart';
+import 'package:deins/entryDrawer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image/image.dart' as image;
 
 
 class Entry {
@@ -40,6 +45,43 @@ class Entry {
     }).toList();
     data["drawPoints"] = drawPointsSerialized;
     return data;
+  }
+
+  Future<double> getPercentage() async {
+    int calcDetailSize = 100;
+
+    final bgPictureRecorder = PictureRecorder();
+    final bgCanvas = Canvas(bgPictureRecorder);
+    Paint backgroundPaint = new Paint()
+      ..color = Colors.red;
+    // draw background color such that it pretty much exactly behind the shape
+    bgCanvas.drawPath(type.shape, backgroundPaint);
+    Picture bgPicture = bgPictureRecorder.endRecording();
+    ByteData bgImgData = await (await bgPicture.toImage(calcDetailSize, calcDetailSize)).toByteData();
+    image.Image bgImg = image.Image.fromBytes(calcDetailSize, calcDetailSize, bgImgData.buffer.asUint8List().toList());
+    int totalPixels = 0;
+    for (int x = 0; x < calcDetailSize; x ++) {
+      for (int y = 0; y < calcDetailSize; y ++) {
+        int pixel = bgImg.getPixel(x, y);
+        if (pixel > 0) totalPixels ++;
+      }
+    }
+
+    final pictureRecorder = PictureRecorder();
+    final canvas = Canvas(pictureRecorder);
+    drawEntryOnCanvas(canvas, Size(calcDetailSize.toDouble(), calcDetailSize.toDouble()), this);
+    Picture picture = pictureRecorder.endRecording();
+    ByteData imgData = await (await picture.toImage(calcDetailSize, calcDetailSize)).toByteData();
+    image.Image img = image.Image.fromBytes(calcDetailSize, calcDetailSize, imgData.buffer.asUint8List().toList());
+    int coloredPixels = 0;
+    for (int x = 0; x < calcDetailSize; x ++) {
+      for (int y = 0; y < calcDetailSize; y ++) {
+        int pixel = img.getPixel(x, y);
+        if (pixel > 0) coloredPixels ++;
+      }
+    }
+
+    return min(1.0, coloredPixels / totalPixels);
   }
 
   bool operator ==(covariant Entry other) {

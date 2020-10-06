@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
+import 'package:deins/entryDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,6 @@ class TypeDraw extends StatelessWidget {
 
 class DrawPainter extends CustomPainter {
   Entry entry;
-  List<Offset> offsetPoints = List();
   Path _path;
   Color _fillColor;
 
@@ -78,34 +78,7 @@ class DrawPainter extends CustomPainter {
     // draw background color such that it pretty much exactly behind the shape
     canvas.drawPath(_path, backgroundPaint);
 
-    Paint paint = new Paint()
-      ..color = entry.type.color
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.08 * size.width;
-
-    List<Offset> pointsScaledUp = [];
-    // points are stores relative to size, so scale them up again
-    for (Offset p in entry.drawPoints) {
-      if (p == null) {
-        pointsScaledUp.add(null);
-        continue;
-      }
-      pointsScaledUp.add(Offset(p.dx * size.width, p.dy * size.height));
-    }
-    // https://ptyagicodecamp.github.io/building-cross-platform-finger-painting-app-in-flutter.html
-    for (int i = 0; i < pointsScaledUp.length - 1; i++) {
-      if (pointsScaledUp[i] != null && pointsScaledUp[i + 1] != null) {
-        // Drawing line when two consecutive points are available
-        canvas.drawLine(pointsScaledUp[i], pointsScaledUp[i + 1], paint);
-      } else if (pointsScaledUp[i] != null && pointsScaledUp[i + 1] == null) {
-        offsetPoints.clear();
-        offsetPoints.add(pointsScaledUp[i]);
-        offsetPoints.add(Offset(pointsScaledUp[i].dx + 0.1, pointsScaledUp[i].dy + 0.1));
-        // Draw points when two points are not next to each other
-        canvas.drawPoints(PointMode.points, offsetPoints, paint);
-      }
-    }
+    drawEntryOnCanvas(canvas, size, entry);
 
     Paint borderPaint = new Paint()
       ..color = Colors.black

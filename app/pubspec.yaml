@@ -34,6 +34,8 @@ dependencies:
   provider: ^4.3.2
   # storage
   shared_preferences: ^0.5.12
+  # image tooling to read pixels
+  image: ^2.1.18
 
 dev_dependencies:
   flutter_test:

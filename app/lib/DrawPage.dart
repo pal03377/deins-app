@@ -43,6 +43,10 @@ class DrawPage extends StatelessWidget {
     final drawSize = Size(screenWidth * 0.7, screenWidth * 0.7);
     final todayAtMidnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0);
     final isToday = _entry.creationDate.isAfter(todayAtMidnight);
+
+    double percentage = 0;
+    _entry.getPercentage().then((p) => percentage = p);
+
     return Consumer<EntryModel>(
       builder: (context, entryModel, child) {
         return Scaffold(
@@ -85,6 +89,11 @@ class DrawPage extends StatelessWidget {
                         textAlign: TextAlign.center
                       )
                     ),
+
+
+                    Text((percentage * 100).toString() + "%", style: TextStyle(fontSize: 32)),
+
+
                     TypeDraw(entry: _entry, size: drawSize, disabled: false),
                     Padding(
                       padding: EdgeInsets.only(
