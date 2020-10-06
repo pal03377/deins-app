@@ -20,6 +20,7 @@ class EntryModel extends ChangeNotifier {
   }
 
   void remove(Entry entry) {
+    this.entries.remove(entry);
     notifyListeners();
   }
 
