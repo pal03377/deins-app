@@ -42,6 +42,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.8.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,3 +58,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - fonts/
+
+flutter_icons:
+  image_path: "logo.png"
+  android: true
+  ios: true
