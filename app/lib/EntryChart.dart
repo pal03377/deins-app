@@ -62,7 +62,20 @@ class EntryChart extends StatelessWidget {
                 // should create the same type of [DateTime] as the data provided. If none
                 // specified, the default creates local date time.
                 dateTimeFactory: const charts.LocalDateTimeFactory(),
-                behaviors: [new charts.SeriesLegend()]
+                behaviors: [
+                  new charts.SlidingViewport(),
+                  new charts.PanAndZoomBehavior(),
+                  new charts.SeriesLegend(),
+                  new charts.ChartTitle("Your feelings over time",
+                      subTitle: "This shows fill percentages of shapes over time." + (entryModel.entries.length <= 3 ? "\nCheck back later to see something here." : ""),
+                      behaviorPosition: charts.BehaviorPosition.top,
+                      titleOutsideJustification: charts.OutsideJustification.start,
+                      innerPadding: 18),
+                  new charts.ChartTitle("Fill percentage",
+                    behaviorPosition: charts.BehaviorPosition.start,
+                    titleOutsideJustification:
+                        charts.OutsideJustification.middleDrawArea)
+                ]
               );
             } else {
               return CircularProgressIndicator();

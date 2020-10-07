@@ -70,22 +70,27 @@ class DrawPage extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.center,
-                      child: Text.rich(
-                        TextSpan(
-                          text: "Draw how you " + (isToday ? "feel" : "felt") + " \nabout your ", 
-                          style: TextStyle(fontSize: (screenWidth >= 500 ? 36 : 28), height: 1.2),
-                            children: [
-                              TextSpan(
-                                text: _entry.type.name, 
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline
-                                ),
-                                recognizer: new TapGestureRecognizer()..onTap = () { _openEntryTypeSelectDialog(context); }
-                              ), 
-                              TextSpan(text: ".")
-                            ]
-                        ),
-                        textAlign: TextAlign.center
+                      child: Column(
+                        children: [
+                          Text.rich(
+                            TextSpan(
+                              text: "Draw how you " + (isToday ? "feel" : "felt") + " \nabout your ", 
+                              style: TextStyle(fontSize: (screenWidth >= 500 ? 36 : 28), height: 1.2),
+                              children: [
+                                TextSpan(
+                                  text: _entry.type.name, 
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline
+                                  ),
+                                  recognizer: new TapGestureRecognizer()..onTap = () { _openEntryTypeSelectDialog(context); }
+                                ), 
+                                TextSpan(text: ".")
+                              ]
+                            ),
+                            textAlign: TextAlign.center
+                          ),
+                          Text("more filled shape = better")
+                        ],
                       )
                     ),
                     TypeDraw(entry: _entry, size: drawSize, disabled: false),

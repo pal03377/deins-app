@@ -111,9 +111,26 @@ class _TimelineListState extends State<TimelineList> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32), 
-      child: _buildEntries()
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 32), 
+          child: _buildEntries()
+        ),
+        Consumer<EntryModel>(
+          builder: (context, entryModel, child) {
+            if (entryModel.entries.length <= 3) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Center(
+                  child: Text("Add some " + (entryModel.entries.length > 0 ? "more " : "") + "pearls on the bottom right!", style: TextStyle(fontSize: 18))
+                ),
+              );
+            }
+            return Container();
+          }
+        )
+      ],
     );
   }
 }
