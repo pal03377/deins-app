@@ -12,7 +12,7 @@ class EntryTypeSelectDialog extends StatelessWidget {
         onPressed: () { Navigator.pop(context, et); },
         child: Row(
           children: [
-            TypeDraw(entry: Entry.noDrawing(DateTime.now(), et), size: Size(36, 36), disabled: true, fillColor: et.color), 
+            TypeDraw(entry: Entry.noDrawing(DateTime.now(), et), size: Size(36, 36), disabled: true, fillColors: et.colors), 
             Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Text(et.name, style: TextStyle(fontSize: 20))

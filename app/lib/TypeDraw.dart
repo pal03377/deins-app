@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
+const pureWhite = [whiteBg, whiteBg];
+
 class TypeDraw extends StatelessWidget {
   final Entry entry;
   final Size size;
   final bool disabled;
-  final Color fillColor;
-  TypeDraw({ this.entry, this.size, this.disabled, this.fillColor=whiteBg });
+  final List<Color> fillColors;
+  TypeDraw({ this.entry, this.size, this.disabled, this.fillColors=pureWhite });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class TypeDraw extends StatelessWidget {
           clipper: PathClipper(path),
           child: CustomPaint(
             size: size,
-            painter: DrawPainter(entry, path, fillColor)
+            painter: DrawPainter(entry, path, fillColors)
           )
         ), 
         onPanStart: (details) {
@@ -68,14 +70,19 @@ class TypeDraw extends StatelessWidget {
 class DrawPainter extends CustomPainter {
   Entry entry;
   Path _path;
-  Color _fillColor;
+  List<Color> _fillColors;
 
-  DrawPainter(this.entry, this._path, this._fillColor);
+  DrawPainter(this.entry, this._path, this._fillColors);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint backgroundPaint = new Paint()
-      ..color = _fillColor;
+      ..shader = RadialGradient(
+        colors: _fillColors,
+      ).createShader(Rect.fromCircle(
+        center: Offset(0.0, 0.0),
+        radius: size.width,
+      ));
     // draw background color such that it pretty much exactly behind the shape
     canvas.drawPath(_path, backgroundPaint);
 

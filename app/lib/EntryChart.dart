@@ -36,7 +36,7 @@ class EntryChart extends StatelessWidget {
       entryTypeCharts.add(
         new charts.Series<EntryWithCachedPercentage, DateTime>(
           id: et.name,
-          colorFn: (_, __) => charts.ColorUtil.fromDartColor(et.color),
+          colorFn: (_, __) => charts.ColorUtil.fromDartColor(et.colors[0]),
           domainFn: (EntryWithCachedPercentage entry, _) => entry.creationDate,
           measureFn: (EntryWithCachedPercentage entry, _) => entry.percentage * 100,
           data: cachedEntries.where((entry) => entry.type == et).toList(),

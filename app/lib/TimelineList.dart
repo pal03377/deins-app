@@ -2,7 +2,6 @@ import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/TypeDraw.dart';
-import 'package:deins/entryDatePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

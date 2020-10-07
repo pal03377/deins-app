@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 
 drawEntryOnCanvas(Canvas canvas, Size size, Entry entry) {
   Paint paint = new Paint()
-    ..color = entry.type.color
     ..strokeCap = StrokeCap.round
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 0.08 * size.width;
+    ..strokeWidth = 0.08 * size.width
+    ..shader = RadialGradient(
+      colors: entry.type.colors,
+    ).createShader(Rect.fromCircle(
+      center: Offset(0.0, 0.0),
+      radius: size.width,
+    ));
 
   List<Offset> pointsScaledUp = [];
   // points are stores relative to size, so scale them up again

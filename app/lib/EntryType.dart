@@ -55,17 +55,17 @@ class EntryType {
     }
   }
 
-  Color get color {
+  List<Color> get colors {
     switch (_me) {
-      case EntryType.none: return whiteBg;
-      case EntryType.career: return etYellow;
-      case EntryType.health: return etTurquoise;
-      case EntryType.personality: return etRed;
-      case EntryType.friends: return etBlue;
-      case EntryType.relationship: return etRose;
-      case EntryType.environment: return etLightgreen;
-      case EntryType.sleep: return etDarkturquoise;
-      case EntryType.finances: return etPurple;
+      case EntryType.none: return [whiteBg, whiteBg];
+      case EntryType.career: return [etYellow, etYellow2];
+      case EntryType.health: return [etTurquoise, etTurquoise2];
+      case EntryType.personality: return [etRed, etRed2];
+      case EntryType.friends: return [etBlue, etBlue2];
+      case EntryType.relationship: return [etHeart, etHeart2];
+      case EntryType.environment: return [etLightgreen, etLightgreen2];
+      case EntryType.sleep: return [etStar, etStar2];
+      case EntryType.finances: return [etPurple, etPurple2];
       default: return null;
     }
   }
