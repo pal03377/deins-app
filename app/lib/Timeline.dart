@@ -28,7 +28,7 @@ class Timeline extends StatelessWidget {
                         builder: (context, entryModel, child) {
                           return SizedBox(
                             width: 6,
-                            height: entryModel.entries.length * 103.0 + 32
+                            height: entryModel.entries.length * 100.0 + 32
                           );
                       }),
                       decoration: BoxDecoration(
