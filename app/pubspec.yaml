@@ -60,6 +60,8 @@ flutter:
     - fonts/
 
 flutter_icons:
-  image_path: "logo.png"
+  image_path: "logo/logo.png"
+  adaptive_icon_background: "logo/background.png"
+  adaptive_icon_foreground: "logo/foreground.png"
   android: true
   ios: true
