@@ -3,6 +3,7 @@ import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryType.dart';
 import 'package:deins/colors.dart';
+import 'package:deins/requestEntryRemoval.dart';
 import 'package:deins/storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,8 @@ class App extends StatelessWidget {
                   context: context,
                   children: [
                     Text("Deins is an app for you to track how you feel about different areas of your life - just by drawing into shapes. The more you draw, the happier you are. You can then get a chart about your developments. There is no syncing into the cloud, everything is kept private on your device.\n\n"),
-                    Text("Impress:\nPaul Schwind\nWiesenweg 27\n97084 Würzburg\nGermany", style: TextStyle(color: Colors.black54))
+                    Text("Impress:\nPaul Schwind\nWiesenweg 27\n97084 Würzburg\nGermany", style: TextStyle(color: Colors.black54)),
+                    TextButton(child: Text("Remove all data"), onPressed: () { Navigator.of(context).pop(); requestEntryRemoval(context); })
                   ]
                 )),
                 IconButton(icon: Icon(Icons.stacked_line_chart_rounded), onPressed: () => _openCharts(context))

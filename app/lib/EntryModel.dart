@@ -24,6 +24,11 @@ class EntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAll() {
+    this.entries = [];
+    notifyListeners();
+  }
+
   void indicateChange() {
     notifyListeners();
   }
