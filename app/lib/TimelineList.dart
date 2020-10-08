@@ -102,7 +102,7 @@ class _TimelineListState extends State<TimelineList> {
           itemBuilder: (context, index) {
             if (index >= allEntries.length) return null;
             if (index >= _entries.length && _entries.length < allEntries.length) {
-              int rangeEnd = _entries.length + 10;
+              int rangeEnd = _entries.length + 7;
               if (rangeEnd >= allEntries.length) rangeEnd = allEntries.length;
               _entries.addAll(allEntries.sublist(
                 _entries.length, rangeEnd
