@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/EntryListModel.dart';
@@ -16,7 +18,7 @@ class DrawPage extends StatelessWidget {
   DrawPage(this._entry);
 
   Future<void> _openEntryTypeSelectDialog(BuildContext context) async {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Timer.run(() => (() async {
       EntryType newType = EntryType(EntryType.none);
       while (newType.empty) {
         newType = await showDialog<EntryType>(
@@ -30,7 +32,7 @@ class DrawPage extends StatelessWidget {
         _entry.clearDrawings();
       }
       Provider.of<EntryModel>(context, listen: false).indicateChange();
-    });
+    })());
   }
 
   @override
