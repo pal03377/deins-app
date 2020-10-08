@@ -1,5 +1,5 @@
 import 'package:deins/Entry.dart';
-import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:deins/EntryType.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,11 @@ class EntryWithCachedPercentage extends Entry {
 }
 
 class EntryChart extends StatelessWidget {
-  Future<List<charts.Series<EntryWithCachedPercentage, DateTime>>> _createData(entryModel) async {
+  Future<List<charts.Series<EntryWithCachedPercentage, DateTime>>> _createData(entryListModel) async {
 
     // prepare percentage
     List<EntryWithCachedPercentage> cachedEntries = [];
-    for (Entry e in entryModel.entries) {
+    for (Entry e in entryListModel.entries) {
       EntryWithCachedPercentage entry = EntryWithCachedPercentage.from(e);
       await entry.calculateAndCachePercentage();
       cachedEntries.add(entry);
@@ -49,10 +49,10 @@ class EntryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EntryModel>(
-      builder: (context, entryModel, child) {
+    return Consumer<EntryListModel>(
+      builder: (context, entryListModel, child) {
         return FutureBuilder(
-          future: _createData(entryModel),
+          future: _createData(entryListModel),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return charts.TimeSeriesChart(
@@ -67,7 +67,7 @@ class EntryChart extends StatelessWidget {
                   new charts.PanAndZoomBehavior(),
                   new charts.SeriesLegend(),
                   new charts.ChartTitle("Your feelings over time",
-                      subTitle: "This shows fill percentages of shapes over time." + (entryModel.entries.length <= 3 ? "\nCheck back later to see something here." : ""),
+                      subTitle: "This shows fill percentages of shapes over time." + (entryListModel.entries.length <= 3 ? "\nCheck back later to see something here." : ""),
                       behaviorPosition: charts.BehaviorPosition.top,
                       titleOutsideJustification: charts.OutsideJustification.start,
                       innerPadding: 18),

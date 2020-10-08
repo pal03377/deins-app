@@ -1,5 +1,6 @@
 import 'package:deins/DrawPage.dart';
 import 'package:deins/Entry.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:deins/EntryModel.dart';
 import 'package:deins/TypeDraw.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,19 @@ class _TimelineListState extends State<TimelineList> {
   _TimelineListState();
   List<Entry> _entries = [];
 
-  _openEntry(BuildContext context, Entry entry) {
-    Navigator.of(context).push(
+  _openEntry(BuildContext context, Entry entry) async {
+    EntryModel eModel = EntryModel.fromEntry(entry);
+    await Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
-          return DrawPage(entry);
+          return ChangeNotifierProvider.value(
+            value: eModel,
+            child: DrawPage(entry)
+          );
         }
       )
     );
+    Provider.of<EntryListModel>(context, listen: false).indicateChange();
   }
 
   Widget _buildRow(entry) {
@@ -76,9 +82,9 @@ class _TimelineListState extends State<TimelineList> {
   }
 
   Widget _buildEntries() {
-    return Consumer<EntryModel>(
-      builder: (context, entryModel, child) {
-        List<Entry> allEntries = entryModel.entries;
+    return Consumer<EntryListModel>(
+      builder: (context, entryListModel, child) {
+        List<Entry> allEntries = entryListModel.entries;
         for (Entry entry in allEntries) {
           if (entry.type.empty) {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -117,13 +123,13 @@ class _TimelineListState extends State<TimelineList> {
           padding: const EdgeInsets.only(top: 32), 
           child: _buildEntries()
         ),
-        Consumer<EntryModel>(
-          builder: (context, entryModel, child) {
-            if (entryModel.entries.length <= 3) {
+        Consumer<EntryListModel>(
+          builder: (context, entryListModel, child) {
+            if (entryListModel.entries.length <= 3) {
               return Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Center(
-                  child: Text("Add some " + (entryModel.entries.length > 0 ? "more " : "") + "pearls on the bottom right!", style: TextStyle(fontSize: 18))
+                  child: Text("Add some " + (entryListModel.entries.length > 0 ? "more " : "") + "pearls on the bottom right!", style: TextStyle(fontSize: 18))
                 ),
               );
             }

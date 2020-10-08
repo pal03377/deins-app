@@ -1,4 +1,4 @@
-import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:deins/TimelineList.dart';
 import 'package:deins/colors.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +24,11 @@ class Timeline extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 12, bottom: 64), 
                   child: Center(
                     child: Container(
-                      child: Consumer<EntryModel>(
-                        builder: (context, entryModel, child) {
+                      child: Consumer<EntryListModel>(
+                        builder: (context, entryListModel, child) {
                           return SizedBox(
                             width: 6,
-                            height: entryModel.entries.length * 100.0 + 32
+                            height: entryListModel.entries.length * 100.0 + 32
                           );
                       }),
                       decoration: BoxDecoration(

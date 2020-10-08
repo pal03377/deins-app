@@ -4,30 +4,10 @@ import 'package:deins/Entry.dart';
 
 class EntryModel extends ChangeNotifier {
 
-  List<Entry> entries = [];
+  Entry entry;
 
   EntryModel();
-  EntryModel.fromEntries(this.entries);
-
-  void add(Entry entry) {
-    entries.add(entry);
-    notifyListeners();
-  }
-
-  void addAll(List<Entry> entries) {
-    this.entries.addAll(entries);
-    notifyListeners();
-  }
-
-  void remove(Entry entry) {
-    this.entries.remove(entry);
-    notifyListeners();
-  }
-
-  void removeAll() {
-    this.entries = [];
-    notifyListeners();
-  }
+  EntryModel.fromEntry(this.entry);
 
   void indicateChange() {
     notifyListeners();

@@ -1,6 +1,6 @@
 import 'package:deins/ChartPage.dart';
 import 'package:deins/Entry.dart';
-import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:deins/EntryType.dart';
 import 'package:deins/colors.dart';
 import 'package:deins/requestEntryRemoval.dart';
@@ -15,19 +15,19 @@ import 'Timeline.dart';
 
 
 void main() {
-  EntryModel eModel = EntryModel();
+  EntryListModel elModel = EntryListModel();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
   runApp(ChangeNotifierProvider.value(
-    value: eModel,
+    value: elModel,
     child: App()
   ));
 
-  loadEntries().then((entries) => eModel.addAll(entries));
-  eModel.addListener(() {
-    storeEntries(eModel.entries);
+  loadEntries().then((entries) => elModel.addAll(entries));
+  elModel.addListener(() {
+    storeEntries(elModel.entries);
   });
 }
 
@@ -78,7 +78,7 @@ class App extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add), 
             onPressed: () {
-              Provider.of<EntryModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
+              Provider.of<EntryListModel>(context, listen: false).add(Entry.noDrawing(DateTime.now(), EntryType(EntryType.none)));
             },
             backgroundColor: primary
           ),

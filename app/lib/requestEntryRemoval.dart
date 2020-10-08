@@ -1,4 +1,4 @@
-import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +16,7 @@ requestEntryRemoval(BuildContext context) {
     onPressed: () async {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove("entries");
-      Provider.of<EntryModel>(context, listen: false).removeAll();
+      Provider.of<EntryListModel>(context, listen: false).removeAll();
       Navigator.of(context).pop();
     },
   );

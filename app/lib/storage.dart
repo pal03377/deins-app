@@ -17,8 +17,5 @@ Future<List<Entry>> loadEntries() async {
     return Entry.fromData(data);
   })?.toList();
   if (result == null) return [];
-  result.sort((a, b) {
-    return a.creationDate.compareTo(b.creationDate);
-  });
   return result;
 }

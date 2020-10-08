@@ -1,5 +1,6 @@
 import 'package:deins/Entry.dart';
 import 'package:deins/EntryModel.dart';
+import 'package:deins/EntryListModel.dart';
 import 'package:deins/EntryType.dart';
 import 'package:deins/EntryTypeSelectDialog.dart';
 import 'package:deins/TypeDraw.dart';
@@ -138,7 +139,7 @@ class DrawPage extends StatelessWidget {
                                     _entry.clearDrawings();
                                     Provider.of<EntryModel>(context, listen: false).indicateChange();
                                   } else {
-                                    Provider.of<EntryModel>(context, listen: false).remove(_entry);
+                                    Provider.of<EntryListModel>(context, listen: false).remove(_entry);
                                     Navigator.pop(context);
                                   }
                                 }
